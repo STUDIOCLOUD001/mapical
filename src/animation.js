@@ -547,10 +547,10 @@ class MapicalAnimations {
     if (!imageElement) return null
 
     const photos = [
-      "assets/images/pic_1.png",
-      "assets/images/pic_2.png",
-      "assets/images/pic_3.png",
-      "assets/images/pic_4.png",
+      "assets/images/pic_1.avif",
+      "assets/images/pic_2.avif",
+      "assets/images/pic_3.avif",
+      "assets/images/pic_4.avif",
     ]
 
     let currentIndex = 0
