@@ -568,7 +568,7 @@ a {
   display: block;
   height: 100%;
   width: 0%;
-  background: var(--orange-500);
+  background: var(--neutral-500);
   transition: width 0.2s;
 }
 
