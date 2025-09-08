@@ -7,6 +7,8 @@ class GSAPParticleSystem {
     this.text = document.querySelector(".liquid-text")
     this.isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
     this.gsap = window.gsap
+    this.animationFrameId = null
+    this.intervals = []
 
     if (this.isMobile) {
       console.log("Particle system disabled on mobile device")
@@ -14,19 +16,45 @@ class GSAPParticleSystem {
     }
 
     const screenWidth = window.innerWidth
-    if (screenWidth <= 320) {
-      this.maxParticles = 0
+    if (screenWidth <= 768) {
+      this.maxParticles = 150 // Reduced from 900
+    } else if (screenWidth <= 1200) {
+      this.maxParticles = 300
     } else {
-      this.maxParticles = 900
+      this.maxParticles = 450 // Still reduced from 900
     }
+
+    this.performanceMode = this.detectPerformanceMode()
 
     this.init()
   }
 
+  detectPerformanceMode() {
+    const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection
+    if (
+      connection &&
+      connection.effectiveType &&
+      (connection.effectiveType === "slow-2g" || connection.effectiveType === "2g")
+    ) {
+      return "low"
+    }
+    return navigator.hardwareConcurrency < 4 ? "medium" : "high"
+  }
+
   init() {
     if (!this.particleField) return
-    this.createParticlePool()
-    this.setupInteractions()
+
+    if (window.requestIdleCallback) {
+      requestIdleCallback(() => {
+        this.createParticlePool()
+        this.setupInteractions()
+      })
+    } else {
+      setTimeout(() => {
+        this.createParticlePool()
+        this.setupInteractions()
+      }, 0)
+    }
 
     document.fonts.ready.then(() => {
       this.createTextParticleMap()
@@ -37,21 +65,36 @@ class GSAPParticleSystem {
       }, 1000)
     })
 
+    let resizeTimeout
     window.addEventListener("resize", () => {
-      setTimeout(() => {
+      clearTimeout(resizeTimeout)
+      resizeTimeout = setTimeout(() => {
         this.createTextParticleMap()
-      }, 100)
+      }, 250) // Increased debounce time
     })
   }
 
   createParticlePool() {
-    for (let i = 0; i < this.maxParticles; i++) {
-      const particle = document.createElement("div")
-      particle.className = "magic-particle"
-      particle.style.display = "none"
-      this.particleField.appendChild(particle)
-      this.particles.push(particle)
+    const batchSize = 50
+    let created = 0
+
+    const createBatch = () => {
+      const end = Math.min(created + batchSize, this.maxParticles)
+      for (let i = created; i < end; i++) {
+        const particle = document.createElement("div")
+        particle.className = "magic-particle"
+        particle.style.display = "none"
+        this.particleField.appendChild(particle)
+        this.particles.push(particle)
+      }
+      created = end
+
+      if (created < this.maxParticles) {
+        requestAnimationFrame(createBatch)
+      }
     }
+
+    createBatch()
   }
 
   createTextParticleMap() {
@@ -85,7 +128,13 @@ class GSAPParticleSystem {
     const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height)
     const points = []
 
-    const samplingDistance = Math.max(2, Math.floor(fontSize / 70))
+    const baseSampling = Math.max(2, Math.floor(fontSize / 70))
+    const samplingDistance =
+      this.performanceMode === "low"
+        ? baseSampling * 2
+        : this.performanceMode === "medium"
+          ? baseSampling * 1.5
+          : baseSampling
 
     for (let y = 0; y < canvas.height; y += samplingDistance) {
       for (let x = 0; x < canvas.width; x += samplingDistance) {
@@ -104,7 +153,7 @@ class GSAPParticleSystem {
   createTextBurst() {
     if (this.textPoints.length === 0) return
 
-    const sampleCount = 120
+    const sampleCount = this.performanceMode === "low" ? 60 : this.performanceMode === "medium" ? 90 : 120
     const sample = this.textPoints.sort(() => 0.5 - Math.random()).slice(0, sampleCount)
 
     const batchSize = 8
@@ -256,48 +305,69 @@ class GSAPParticleSystem {
   }
 
   startParticleAnimation() {
-    setInterval(() => {
-      for (let i = 0; i < 4; i++) {
-        setTimeout(() => this.createParticle(), i * 25)
-      }
-    }, 80)
+    const baseInterval = this.performanceMode === "low" ? 160 : this.performanceMode === "medium" ? 120 : 80
 
-    setInterval(() => {
-      this.createTextBurst()
-    }, 5000)
-
-    setInterval(() => {
-      for (let i = 0; i < 60; i++) {
-        setTimeout(() => this.createParticle(), i * 30)
-      }
-    }, 3000)
-
-    setInterval(() => {
-      if (this.textPoints.length > 0) {
-        const randomPoints = this.textPoints.sort(() => 0.5 - Math.random()).slice(0, 5)
-
-        randomPoints.forEach((point, index) => {
-          setTimeout(() => {
-            const spreadX = (Math.random() - 0.5) * 30
-            const spreadY = (Math.random() - 0.5) * 30
-            this.createTextParticle(point.x + spreadX, point.y + spreadY)
-          }, index * 60)
-        })
-      }
-    }, 3000)
-
-    setInterval(() => {
-      if (this.text) {
-        const rect = this.text.getBoundingClientRect()
-        for (let i = 0; i < 15; i++) {
-          setTimeout(() => {
-            const x = rect.left + (Math.random() - 0.5) * rect.width * 3
-            const y = rect.top + (Math.random() - 0.5) * rect.height * 3
-            this.createParticle(x, y)
-          }, i * 40)
+    // Main particle generation
+    this.intervals.push(
+      setInterval(() => {
+        const particleCount = this.performanceMode === "low" ? 2 : 4
+        for (let i = 0; i < particleCount; i++) {
+          setTimeout(() => this.createParticle(), i * 25)
         }
-      }
-    }, 2000)
+      }, baseInterval),
+    )
+
+    // Text burst
+    this.intervals.push(
+      setInterval(() => {
+        this.createTextBurst()
+      }, 5000),
+    )
+
+    // Burst particles
+    this.intervals.push(
+      setInterval(() => {
+        const burstCount = this.performanceMode === "low" ? 30 : 60
+        for (let i = 0; i < burstCount; i++) {
+          setTimeout(() => this.createParticle(), i * 30)
+        }
+      }, 4000),
+    ) // Reduced frequency
+
+    // Text point particles
+    this.intervals.push(
+      setInterval(() => {
+        if (this.textPoints.length > 0) {
+          const pointCount = this.performanceMode === "low" ? 3 : 5
+          const randomPoints = this.textPoints.sort(() => 0.5 - Math.random()).slice(0, pointCount)
+
+          randomPoints.forEach((point, index) => {
+            setTimeout(() => {
+              const spreadX = (Math.random() - 0.5) * 30
+              const spreadY = (Math.random() - 0.5) * 30
+              this.createTextParticle(point.x + spreadX, point.y + spreadY)
+            }, index * 60)
+          })
+        }
+      }, 3000),
+    )
+
+    // Area particles
+    this.intervals.push(
+      setInterval(() => {
+        if (this.text) {
+          const rect = this.text.getBoundingClientRect()
+          const areaCount = this.performanceMode === "low" ? 8 : 15
+          for (let i = 0; i < areaCount; i++) {
+            setTimeout(() => {
+              const x = rect.left + (Math.random() - 0.5) * rect.width * 3
+              const y = rect.top + (Math.random() - 0.5) * rect.height * 3
+              this.createParticle(x, y)
+            }, i * 40)
+          }
+        }
+      }, 2500),
+    ) // Reduced frequency
   }
 
   setupInteractions() {
@@ -360,10 +430,36 @@ class GSAPParticleSystem {
   triggerTextBurst() {
     this.createTextBurst()
   }
+
+  destroy() {
+    this.intervals.forEach((interval) => clearInterval(interval))
+    this.intervals = []
+    if (this.animationFrameId) {
+      cancelAnimationFrame(this.animationFrameId)
+    }
+    this.particles.forEach((particle) => particle.remove())
+    this.particles = []
+  }
 }
 
-window.initMagicDust = function() {
-  const container = document.body;
-  const particles = new GSAPParticleSystem(container);
-  particles.start();
-};
+window.initMagicDust = () => {
+  // Only initialize when page is idle or after a delay
+  if (window.requestIdleCallback) {
+    requestIdleCallback(
+      () => {
+        window.magicDustInstance = new GSAPParticleSystem()
+      },
+      { timeout: 2000 },
+    )
+  } else {
+    setTimeout(() => {
+      window.magicDustInstance = new GSAPParticleSystem()
+    }, 1000)
+  }
+}
+
+window.addEventListener("beforeunload", () => {
+  if (window.magicDustInstance) {
+    window.magicDustInstance.destroy()
+  }
+})
