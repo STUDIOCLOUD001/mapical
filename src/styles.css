@@ -526,7 +526,7 @@ a {
 .preloader-logo {
     width: 10rem;
     height: auto;
-    border-radius: 2.8rem;
+    border-radius: 28px;
 }
 
 #preloaderLogo {
