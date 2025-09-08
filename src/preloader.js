@@ -5,13 +5,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (!overlay || !logo) return;
 
-  // Ensure SVG scales from center
-  logo.style.transformOrigin = "50% 50%";
-  logo.style.transformBox = "fill-box";
-  logo.style.opacity = "1"; // make sure logo is visible
-
-  const stop1 = document.querySelector("#paint0_linear_100_1559 stop:first-child");
-  const stop2 = document.querySelector("#paint0_linear_100_1559 stop:last-child");
+  const stop1 = document.querySelector("#paint0_linear_156_573 stop:first-child");
+  const stop2 = document.querySelector("#paint0_linear_156_573 stop:last-child");
 
   const colorPalette = [
     { color1: "#FF9D53", color2: "#F56900" },
@@ -34,39 +29,52 @@ document.addEventListener("DOMContentLoaded", () => {
   function finishPreloader() {
     const tl = gsap.timeline();
 
-    // Intro scale animation
-    tl.to(logo, { scale: 1, duration: 1, ease: "power2.out" });
+    tl.fromTo(
+      logo,
+      { opacity: 0, scale: 0.8 },
+      { opacity: 1, scale: 1, duration: 1, ease: "power2.out" }
+    );
 
-    // Animate gradient stops
     if (stop1 && stop2) {
       colorPalette.forEach((colors, index) => {
-        tl.to([stop1, stop2], {
-          attr: {
-            "stop-color": (i) => (i === 0 ? colors.color1 : colors.color2)
+        tl.to(
+          [stop1, stop2],
+          {
+            attr: {
+              "stop-color": (i) => (i === 0 ? colors.color1 : colors.color2),
+            },
+            duration: 0.5,
+            ease: "power2.inOut",
           },
-          duration: 0.5,
-          ease: "power2.inOut",
-        }, index * 0.2);
+          index * 0.2
+        );
       });
     }
 
-    // Logo exit animation
-    tl.to(logo, { scale: 10, filter: "blur(80px)", duration: 1.5, ease: "power2.inOut" }, "-=0.5");
+    tl.to(
+      logo,
+      { scale: 10, filter: "blur(80px)", duration: 1.5, ease: "power2.inOut" },
+      "-=0.5"
+    );
 
-    // Fade out overlay
-    tl.to(overlay, {
-      opacity: 0,
-      duration: 0.8,
-      ease: "power2.out",
-      onComplete: () => {
-        overlay.style.display = "none";
-        document.dispatchEvent(new Event("preloaderComplete"));
+    tl.to(
+      overlay,
+      {
+        opacity: 0,
+        duration: 0.8,
+        ease: "power2.out",
+        onComplete: () => {
+          overlay.style.display = "none";
+          document.dispatchEvent(new Event("preloaderComplete"));
+          if (typeof initMagicDust === "function") initMagicDust();
+        },
       },
-    }, "-=1.2");
+      "-=1.2"
+    );
   }
 
   if (assets.length) {
-    assets.forEach(img => {
+    assets.forEach((img) => {
       if (img.complete) updateProgress();
       else {
         img.addEventListener("load", updateProgress);
@@ -74,7 +82,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   } else {
-    // No images? Run animation immediately
     finishPreloader();
   }
 });
