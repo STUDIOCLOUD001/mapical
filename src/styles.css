@@ -529,18 +529,23 @@ a {
     border-radius: 2.8rem;
 }
 
-#preloaderLogo {
-  width: 120px;
-  height: 120px;
+#preloader {
   position: fixed;
-  top: 50%;
-  left: 50%;
-  margin: -60px 0 0 -60px;
-  transform-origin: center center;
-  opacity: 0;
-  filter: blur(0px);
-  will-change: transform, filter, opacity;
-  fill: var(--white-50);
+  inset: 0;
+  background: #000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+}
+
+#preloaderLogo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 180px;
+  z-index: 10001;
 }
 
 #preloaderLogo svg {
@@ -549,6 +554,25 @@ a {
   image-rendering: crisp-edges;
   transform-origin: center center;
   transition: width 0.1s ease, height 0.1s ease;
+}
+
+#progressBar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 0.1rem;
+  background: rgba(255,255,255,0.1);
+  overflow: hidden;
+  z-index: 10002;
+}
+
+#progressBar span {
+  display: block;
+  height: 100%;
+  width: 0%;
+  background: var(--sand-500);
+  transition: width 0.2s;
 }
 
 /* Home Header */
