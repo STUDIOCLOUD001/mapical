@@ -361,3 +361,9 @@ class GSAPParticleSystem {
     this.createTextBurst()
   }
 }
+
+window.initMagicDust = function() {
+  const container = document.body;
+  const particles = new GSAPParticleSystem(container);
+  particles.start();
+};
