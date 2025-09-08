@@ -15,6 +15,7 @@ class MapicalAnimations {
 
   init() {
     // Configure GSAP
+    this.gsap.config({ force3D: true })
     // Cache DOM elements
     this.cacheElements()
     // Setup initial states
@@ -50,6 +51,7 @@ class MapicalAnimations {
         this.gsap.set(this.elements[key], {
           opacity: 0,
           y: 30,
+          force3D: true,
           willChange: "transform, opacity",
         })
       }
@@ -58,6 +60,7 @@ class MapicalAnimations {
     if (this.elements.particleField) {
       this.gsap.set(this.elements.particleField, {
         scale: 0,
+        force3D: true,
         willChange: "transform",
       })
     }
@@ -65,6 +68,7 @@ class MapicalAnimations {
     this.gsap.set(this.elements.mediaCards, {
       opacity: 0,
       scale: 0.8,
+      force3D: true,
       willChange: "transform, opacity",
     })
   }
@@ -86,7 +90,7 @@ class MapicalAnimations {
   createMasterTimeline() {
     this.masterTimeline = this.gsap.timeline({ paused: true })
     const mainTimeline = this.gsap.timeline({
-      defaults: { ease: "power2.out" },
+      defaults: { ease: "power2.out", force3D: true },
     })
 
     this.animateInitialElements(mainTimeline)
@@ -217,6 +221,7 @@ class MapicalAnimations {
             y: 0,
             duration: 0.08,
             ease: "power2.out",
+            force3D: true,
           })
         },
         null,
@@ -265,6 +270,7 @@ class MapicalAnimations {
         duration: 1.2,
         width: () => (window.innerWidth > 768 ? "75%" : "100%"),
         ease: "power2.out",
+        force3D: true,
       },
       "-=2.0",
     )
@@ -305,6 +311,7 @@ class MapicalAnimations {
         rotation: 360,
         duration: 0.8,
         ease: "power2.inOut",
+        force3D: true,
       },
     )
   }
@@ -342,6 +349,7 @@ class MapicalAnimations {
       height: isMobile ? "18rem" : "34rem",
       padding: isMobile ? "1rem 1rem 4rem 1rem" : "1rem 1rem 6rem 1rem",
       ease: "power2.inOut",
+      force3D: true,
     })
   }
 
@@ -356,6 +364,7 @@ class MapicalAnimations {
         scale: 1,
         ease: "back.out(1.4)",
         stagger: { amount: 0.8, from: "start" },
+        force3D: true,
       },
       "-=1.8",
     )
@@ -393,11 +402,13 @@ class MapicalAnimations {
         scale: 1.02,
         duration: 0.5,
         ease: "back.out(1.4)",
+        force3D: true,
         onComplete: () => {
           this.gsap.to("#logocontainer", {
             scale: 1,
             duration: 0.15,
             ease: "power1.out",
+            force3D: true,
           })
         },
       },
@@ -417,6 +428,7 @@ class MapicalAnimations {
         scale: 1.02,
         duration: 0.5,
         ease: "back.out(1.4)",
+        force3D: true,
         onStart: () => {
           this.animateFlowerRotation()
         },
@@ -425,6 +437,7 @@ class MapicalAnimations {
             scale: 1,
             duration: 0.15,
             ease: "power1.out",
+            force3D: true,
           })
         },
       },
@@ -446,6 +459,7 @@ class MapicalAnimations {
         rotation: 1065,
         duration: 3.5,
         ease: "power4.out",
+        force3D: true,
       },
     )
   }
@@ -496,6 +510,7 @@ class MapicalAnimations {
         filter: "blur(0px)",
         duration: 0.25,
         ease: "back.out(1.4)",
+        force3D: true,
       },
       ">0.05",
     )
@@ -520,6 +535,7 @@ class MapicalAnimations {
           ease: "sine.inOut",
           yoyo: true,
           repeat: 1,
+          force3D: true,
         },
         index * 0.2,
       )
@@ -608,16 +624,8 @@ class MapicalAnimations {
   }
 
   setupEventListeners() {
-    // This fixes the issue where particles don't show up at the beginning
-    setTimeout(() => {
-      this.masterTimeline.play()
-    }, 100) // Small delay to ensure DOM is ready
-
-    // Keep the original event listener as fallback
     document.addEventListener("preloaderComplete", () => {
-      if (this.masterTimeline && this.masterTimeline.paused()) {
-        this.masterTimeline.play()
-      }
+      this.masterTimeline.play()
     })
 
     // Performance monitoring
