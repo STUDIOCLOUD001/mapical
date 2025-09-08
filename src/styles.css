@@ -551,6 +551,18 @@ a {
   transition: width 0.1s ease, height 0.1s ease;
 }
 
+#percentage {
+    position: fixed;
+    top: 60%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 12px;
+    color: var(--neutral-500);
+    font-weight: 300;
+    letter-spacing: 0.5px;
+    opacity: 0;
+}
+
 /* Home Header */
 .hero__01 {
   height: 100rem;
