@@ -1,4 +1,4 @@
-window.addEventListener("load", () => {
+document.addEventListener("DOMContentLoaded", () => {
   const logo = document.getElementById("preloaderLogo")
   const overlay = document.getElementById("preloader")
   const percentageEl = document.getElementById("percentage")
@@ -17,6 +17,9 @@ window.addEventListener("load", () => {
   let isLoaded = false
   let colorCycleTimeline
   let percentageTimeline
+
+  // Declare gsap variable
+  const gsap = window.gsap
 
   // Style the logo
   Object.assign(logo.style, {
