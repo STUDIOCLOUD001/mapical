@@ -1,20 +1,7 @@
-let isPageLoaded = false
-let colorCycleAnimation
-
-// Check if page is already loaded
-if (document.readyState === "complete") {
-  isPageLoaded = true
-}
-
-// Listen for page load
 window.addEventListener("load", () => {
-  isPageLoaded = true
-})
-
-// Start preloader when DOM is ready
-document.addEventListener("DOMContentLoaded", () => {
   const logo = document.getElementById("preloaderLogo")
   const overlay = document.getElementById("preloader")
+  const percentageEl = document.getElementById("percentage")
   const stop1 = document.querySelector("#paint0_linear_100_1559 stop:first-child")
   const stop2 = document.querySelector("#paint0_linear_100_1559 stop:last-child")
 
@@ -26,6 +13,10 @@ document.addEventListener("DOMContentLoaded", () => {
     { color1: "#8ef78d", color2: "#42e560" },
     { color1: "#bd98fa", color2: "#9960f7" },
   ]
+
+  let isLoaded = false
+  let colorCycleTimeline
+  let percentageTimeline
 
   // Style the logo
   Object.assign(logo.style, {
@@ -43,53 +34,92 @@ document.addEventListener("DOMContentLoaded", () => {
   })
   overlay.style.willChange = "opacity"
 
-  // Initial fade in animation
-  const initialTl = gsap.timeline()
-  initialTl.to(logo, {
+  // Initial fade in
+  gsap.to(logo, {
     scale: 1,
     opacity: 1,
     duration: 1.5,
     ease: "power2.out",
+    onComplete: startColorCycling,
   })
 
-  function createColorCycleLoop() {
-    if (!stop1 || !stop2) return
-
-    colorCycleAnimation = gsap.timeline({ repeat: -1 })
-
-    colorPalette.forEach((colors, index) => {
-      colorCycleAnimation.to([stop1, stop2], {
-        attr: {
-          "stop-color": (i) => (i === 0 ? colors.color1 : colors.color2),
-        },
-        duration: 0.8,
-        ease: "power2.inOut",
-      })
+  // Fade in percentage counter
+  if (percentageEl) {
+    gsap.to(percentageEl, {
+      opacity: 1,
+      duration: 0.8,
+      ease: "power2.out",
+      delay: 1,
     })
   }
 
-  initialTl.call(() => {
-    createColorCycleLoop()
-    checkForPageLoad()
-  })
+  function startColorCycling() {
+    if (isLoaded) return
 
-  function checkForPageLoad() {
-    if (isPageLoaded) {
-      triggerExitAnimation()
-    } else {
-      // Check again in 100ms
-      setTimeout(checkForPageLoad, 100)
+    colorCycleTimeline = gsap.timeline({ repeat: -1 })
+
+    colorPalette.forEach((colors, index) => {
+      if (stop1 && stop2) {
+        colorCycleTimeline.to([stop1, stop2], {
+          attr: {
+            "stop-color": (i) => (i === 0 ? colors.color1 : colors.color2),
+          },
+          duration: 0.8,
+          ease: "power2.inOut",
+        })
+      }
+    })
+
+    if (percentageEl) {
+      let currentPercentage = 0
+      percentageTimeline = gsap.to(
+        {},
+        {
+          duration: 0.1,
+          repeat: -1,
+          onRepeat: () => {
+            if (!isLoaded) {
+              // Simulate realistic loading progress
+              const increment = Math.random() * 2 + 0.5
+              currentPercentage = Math.min(currentPercentage + increment, 95)
+              percentageEl.textContent = Math.floor(currentPercentage) + "%"
+            }
+          },
+        },
+      )
     }
   }
 
-  function triggerExitAnimation() {
-    // Kill the color cycle loop
-    if (colorCycleAnimation) {
-      colorCycleAnimation.kill()
+  function onPageLoaded() {
+    isLoaded = true
+
+    // Complete percentage to 100%
+    if (percentageEl) {
+      gsap.to(
+        {},
+        {
+          duration: 0.5,
+          onUpdate: function () {
+            const progress = this.progress()
+            const finalPercentage = 95 + progress * 5
+            percentageEl.textContent = Math.floor(finalPercentage) + "%"
+          },
+        },
+      )
     }
 
+    // Stop the cycling animations
+    if (colorCycleTimeline) colorCycleTimeline.kill()
+    if (percentageTimeline) percentageTimeline.kill()
+
+    // Start exit animation after brief delay
+    gsap.delayedCall(0.8, startExitAnimation)
+  }
+
+  function startExitAnimation() {
     const exitTl = gsap.timeline()
 
+    // Exit animation
     exitTl
       .to(logo, {
         scale: 35,
@@ -107,6 +137,17 @@ document.addEventListener("DOMContentLoaded", () => {
         "<",
       )
 
+      // Fade out percentage counter
+      .to(
+        percentageEl,
+        {
+          opacity: 0,
+          duration: 0.5,
+          ease: "power2.out",
+        },
+        "-=2.5",
+      )
+
       .to(
         overlay,
         {
@@ -115,21 +156,31 @@ document.addEventListener("DOMContentLoaded", () => {
           ease: "power2.out",
           onComplete: () => {
             overlay.style.display = "none"
+            overlay.style.pointerEvents = "none"
+            document.dispatchEvent(new CustomEvent("preloaderComplete"))
           },
         },
         "-=2.2",
       )
+  }
 
-    const LEAD = 1.4
-    const fireAt = Math.max(0, exitTl.duration() - LEAD)
-    exitTl.call(
-      () => {
-        overlay.style.pointerEvents = "none"
-        if (logo) logo.style.display = "none"
-        document.dispatchEvent(new CustomEvent("preloaderComplete"))
-      },
-      null,
-      fireAt,
-    )
+  if (document.readyState === "complete") {
+    // Page already loaded
+    setTimeout(onPageLoaded, 2000) // Minimum 2 seconds of animation
+  } else {
+    // Wait for page to load, with minimum display time
+    let hasLoaded = false
+    let minTimeReached = false
+
+    window.addEventListener("load", () => {
+      hasLoaded = true
+      if (minTimeReached) onPageLoaded()
+    })
+
+    // Minimum 2 seconds display time
+    setTimeout(() => {
+      minTimeReached = true
+      if (hasLoaded) onPageLoaded()
+    }, 2000)
   }
 })
