@@ -1,9 +1,17 @@
-window.addEventListener("load", () => {
-  const logo = document.getElementById("preloaderLogo");
+document.addEventListener("DOMContentLoaded", () => {
   const overlay = document.getElementById("preloader");
+  const logo = document.getElementById("preloaderLogo");
+  const bar = document.querySelector("#progressBar span");
+
+  if (!overlay || !logo) return;
+
+  // Ensure SVG scales from center
+  logo.style.transformOrigin = "50% 50%";
+  logo.style.transformBox = "fill-box";
+  logo.style.opacity = "1"; // make sure logo is visible
+
   const stop1 = document.querySelector("#paint0_linear_100_1559 stop:first-child");
   const stop2 = document.querySelector("#paint0_linear_100_1559 stop:last-child");
-  if (!logo || !overlay) return;
 
   const colorPalette = [
     { color1: "#FF9D53", color2: "#F56900" },
@@ -12,71 +20,61 @@ window.addEventListener("load", () => {
     { color1: "#bd98fa", color2: "#9960f7" },
   ];
 
-  Object.assign(logo.style, {
-    width: "120px",
-    height: "120px",
-    position: "fixed",
-    top: "50%",
-    left: "50%",
-    margin: "-60px 0 0 -60px",
-    transformOrigin: "center center",
-    opacity: "0",
-    transform: "scale(0.8)",
-    filter: "blur(0px)",
-    willChange: "transform, opacity, filter",
-  });
-  overlay.style.willChange = "opacity";
+  const assets = [...document.images];
+  let loaded = 0;
 
-  const tl = gsap.timeline();
+  function updateProgress() {
+    loaded++;
+    const percent = Math.round((loaded / assets.length) * 100);
+    if (bar) bar.style.width = percent + "%";
 
-  tl.to(logo, {
-    scale: 1,
-    opacity: 1,
-    duration: 1.5,
-    ease: "power2.out",
-  })
-
-  if (stop1 && stop2) {
-    const loopBackColors = colorPalette[0];
-    const totalColors = colorPalette.length;
-
-    colorPalette.forEach((colors, index) => {
-      tl.to([stop1, stop2], {
-        attr: {
-          "stop-color": (i) => (i === 0 ? colors.color1 : colors.color2)
-        },
-        duration: 0.6,
-        ease: "power2.inOut",
-      }, 0.5 + (index * 0.2));
-    });
+    if (loaded >= assets.length) finishPreloader();
   }
 
-  tl.to(logo, {
-    scale: 35,
-    filter: "blur(120px)",
-    duration: 2.5,
-    ease: "cubic-bezier(0.4, 0, 0.2, 1)",
-  })
+  function finishPreloader() {
+    const tl = gsap.timeline();
 
-  .to([stop1, stop2].filter(Boolean), {
-    attr: { "stop-color": (i) => (i === 0 ? "#000000" : "#242424") },
-    duration: 2.5,
-  }, "<")
+    // Intro scale animation
+    tl.to(logo, { scale: 1, duration: 1, ease: "power2.out" });
 
-  .to(overlay, {
-    opacity: 0,
-    duration: 1.5,
-    ease: "power2.out",
-    onComplete: () => {
-      overlay.style.display = "none";
-    },
-  }, "-=2.2");
+    // Animate gradient stops
+    if (stop1 && stop2) {
+      colorPalette.forEach((colors, index) => {
+        tl.to([stop1, stop2], {
+          attr: {
+            "stop-color": (i) => (i === 0 ? colors.color1 : colors.color2)
+          },
+          duration: 0.5,
+          ease: "power2.inOut",
+        }, index * 0.2);
+      });
+    }
 
-  const LEAD = 1.4;
-  const fireAt = Math.max(0, tl.duration() - LEAD);
-  tl.call(() => {
-    overlay.style.pointerEvents = "none";
-    if (logo) logo.style.display = "none";
-    document.dispatchEvent(new CustomEvent("preloaderComplete"));
-  }, null, fireAt);
+    // Logo exit animation
+    tl.to(logo, { scale: 10, filter: "blur(80px)", duration: 1.5, ease: "power2.inOut" }, "-=0.5");
+
+    // Fade out overlay
+    tl.to(overlay, {
+      opacity: 0,
+      duration: 0.8,
+      ease: "power2.out",
+      onComplete: () => {
+        overlay.style.display = "none";
+        document.dispatchEvent(new Event("preloaderComplete"));
+      },
+    }, "-=1.2");
+  }
+
+  if (assets.length) {
+    assets.forEach(img => {
+      if (img.complete) updateProgress();
+      else {
+        img.addEventListener("load", updateProgress);
+        img.addEventListener("error", updateProgress);
+      }
+    });
+  } else {
+    // No images? Run animation immediately
+    finishPreloader();
+  }
 });
