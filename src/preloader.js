@@ -85,7 +85,7 @@ document.addEventListener("DOMContentLoaded", () => {
               // Simulate realistic loading progress
               const increment = Math.random() * 2 + 0.5
               currentPercentage = Math.min(currentPercentage + increment, 95)
-              percentageEl.textContent = Math.floor(currentPercentage) + "✦"
+              percentageEl.textContent = Math.floor(currentPercentage) + ""
             }
           },
         },
@@ -105,7 +105,7 @@ document.addEventListener("DOMContentLoaded", () => {
           onUpdate: function () {
             const progress = this.progress()
             const finalPercentage = 95 + progress * 5
-            percentageEl.textContent = Math.floor(finalPercentage) + "✦"
+            percentageEl.textContent = Math.floor(finalPercentage) + ""
           },
         },
       )
