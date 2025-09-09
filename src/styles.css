@@ -536,12 +536,12 @@ a {
   width: 100vw;
   height: 100vh;
   background: #0d0d0d;
+  z-index: 9999;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-  z-index: 9999;
-  gap: 1.5rem; /* Consistent spacing between logo and percentage */
+  align-items: center;
+  gap: 1.5rem;
 }
 
 #preloaderLogo {
