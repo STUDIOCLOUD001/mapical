@@ -21,6 +21,12 @@ document.addEventListener("DOMContentLoaded", () => {
   // Declare gsap variable
   const gsap = window.gsap
 
+  const startLat = 0.0
+  const startLng = 0.0
+  const endLat = -7.946 // South is negative
+  const endLng = 14.375 // West is positive in this case
+  let currentProgress = 0
+
   // Style the logo
   Object.assign(logo.style, {
     width: "120px",
@@ -36,6 +42,22 @@ document.addEventListener("DOMContentLoaded", () => {
     willChange: "transform, opacity, filter",
   })
   overlay.style.willChange = "opacity"
+
+  function formatCoordinates(lat, lng) {
+    const latDir = lat >= 0 ? "N" : "S"
+    const lngDir = lng >= 0 ? "E" : "W"
+    const formattedLat = Math.abs(lat).toFixed(3)
+    const formattedLng = Math.abs(lng).toFixed(3)
+    return `${formattedLat}°${latDir}, ${formattedLng}°${lngDir}`
+  }
+
+  function updateCoordinates(progress) {
+    const currentLat = startLat + (endLat - startLat) * progress
+    const currentLng = startLng + (endLng - startLng) * progress
+    if (percentageEl) {
+      percentageEl.textContent = formatCoordinates(currentLat, currentLng)
+    }
+  }
 
   // Initial fade in
   gsap.to(logo, {
@@ -74,7 +96,6 @@ document.addEventListener("DOMContentLoaded", () => {
     })
 
     if (percentageEl) {
-      let currentPercentage = 0
       percentageTimeline = gsap.to(
         {},
         {
@@ -82,10 +103,10 @@ document.addEventListener("DOMContentLoaded", () => {
           repeat: -1,
           onRepeat: () => {
             if (!isLoaded) {
-              // Simulate realistic loading progress
-              const increment = Math.random() * 2 + 0.5
-              currentPercentage = Math.min(currentPercentage + increment, 95)
-              percentageEl.textContent = Math.floor(currentPercentage) + ""
+              // Simulate realistic loading progress with coordinates
+              const increment = Math.random() * 0.02 + 0.005
+              currentProgress = Math.min(currentProgress + increment, 0.95)
+              updateCoordinates(currentProgress)
             }
           },
         },
@@ -96,7 +117,6 @@ document.addEventListener("DOMContentLoaded", () => {
   function onPageLoaded() {
     isLoaded = true
 
-    // Complete percentage to 100%
     if (percentageEl) {
       gsap.to(
         {},
@@ -104,8 +124,12 @@ document.addEventListener("DOMContentLoaded", () => {
           duration: 0.5,
           onUpdate: function () {
             const progress = this.progress()
-            const finalPercentage = 95 + progress * 5
-            percentageEl.textContent = Math.floor(finalPercentage) + ""
+            const finalProgress = 0.95 + progress * 0.05
+            updateCoordinates(finalProgress)
+          },
+          onComplete: () => {
+            // Ensure we show the exact final coordinates
+            updateCoordinates(1.0)
           },
         },
       )
