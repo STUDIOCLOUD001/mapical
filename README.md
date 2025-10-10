@@ -1,5 +1,5 @@
 # Mapical
-Coming soon.
+Spatial Media Mapping
 
 ---
 
