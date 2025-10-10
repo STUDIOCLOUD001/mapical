@@ -1,0 +1,1646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <title>Mapical - Spatial Media Mapping</title>
+
+        <!-- Primary Meta Tags -->
+        <meta name="title" content="Mapical">
+        <meta name="description" content="Mapical — Photos, videos, and audio instantly mapped. Rediscover and share your moments.">
+        <meta name="author" content="Mapical">
+        <meta name="keywords" content="Mapical, map-based storytelling, geotagged stories, photo mapping, video mapping, audio mapping, interactive maps, travel journal, memory maps, location diary, geolocation storytelling, adventure mapping, multimedia maps, spatial media mapping, spatial storytelling, spatial computing, spatial memory, geospatial media, location-based media, spatial archives, immersive maps, story maps, cartographic storytelling, place-based media, associative mapping, spatial file management, visual file organization, map-based file browser, media organization, associative file system, semantic file search, visual information mapping, spatial data navigation, intuitive file discovery, landmark-based navigation, next-generation file system, cognitive file management, memory-based navigation, associative memory design, cognitive mapping, visual spatial memory, intuitive media retrieval, human-centered data organization, embodied computing">
+
+        <!-- Open Graph / Facebook -->
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="Mapical">
+        <meta property="og:description" content="Mapical brings spatial intuition to digital media. Organize, rediscover and share your files.">
+        <meta property="og:image" content="assets/images/mapical-x-image.webp">
+        <meta property="og:url" content="https://mapical.com">
+
+        <!-- Twitter -->
+        <meta property="twitter:card" content="summary_large_image">
+        <meta property="twitter:title" content="Mapical">
+        <meta property="og:description" content="Mapical brings spatial intuition to digital media. Organize, rediscover and share your files.">
+        <meta property="twitter:image" content="assets/images/mapical-x-image.webp">
+
+
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <meta name="apple-mobile-web-app-title" content="Mapical">
+
+        <link rel="apple-touch-icon" sizes="40x40" href="assets/icons/mapical_app_icon-40.png">
+        <link rel="apple-touch-icon" sizes="58x58" href="assets/icons/mapical_app_icon-58.png">
+        <link rel="apple-touch-icon" sizes="60x60" href="assets/icons/mapical_app_icon-60.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="assets/icons/mapical_app_icon-76.png">
+        <link rel="apple-touch-icon" sizes="80x80" href="assets/icons/mapical_app_icon-80.png">
+        <link rel="apple-touch-icon" sizes="87x87" href="assets/icons/mapical_app_icon-87.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="assets/icons/mapical_app_icon-120.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="assets/icons/mapical_app_icon-152.png">
+        <link rel="apple-touch-icon" sizes="167x167" href="assets/icons/mapical_app_icon-167.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/mapical_app_icon-180.png">
+
+        <link rel="icon" href="assets/icons/mapical_favicon.svg" type="image/svg+xml">
+        <link rel="icon" href="assets/icons/mapical_favicon_16.ico" type="image/x-icon">
+        <link rel="icon" href="assets/icons/mapical_favicon_32.ico" type="image/x-icon">
+        <link rel="icon" href="assets/icons/mapical_favicon_180.png" type="image/png" sizes="180x180">
+        <link rel="icon" href="assets/icons/mapical_favicon_192.png" type="image/png" sizes="192x192">
+        <link rel="icon" href="assets/icons/mapical_favicon_512.png" type="image/png" sizes="512x512">
+
+        <link rel="preload" href="assets/fonts/PPMori-SemiBold.woff2" as="font" type="font/woff2" crossorigin>
+        <link rel="preload" href="assets/fonts/Oliver-Regular.woff2" as="font" type="font/woff2" crossorigin>
+
+        <link rel="stylesheet" type="text/css" href="src/styles.css">
+
+        <link rel="preconnect" href="https://fonts.googleapis.com/">
+        <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+
+        <script src="https://cdn.tailwindcss.com"></script>
+
+        <!-- Hotjar-->
+        <script>
+            (function(h,o,t,j,a,r){
+                h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+                h._hjSettings={hjid:6501728,hjsv:6};
+                a=o.getElementsByTagName('head')[0];
+                r=o.createElement('script');r.async=1;
+                r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+                a.appendChild(r);
+            })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+        </script>
+
+        <!-- Google tag -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-608CNP30GZ"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'G-608CNP30GZ');
+        </script>
+
+
+        <!-- GSAP CDN -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+        <script>
+          if (typeof gsap !== "undefined") {
+            console.log("GSAP loaded:", gsap.version);
+          } else {
+            console.error("GSAP failed to load");
+          }
+        </script>
+
+
+
+
+  <style>
+    * {
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    @font-face {
+      font-family: "Sohne-Buch";
+      src: url("assets/fonts/Sohne-Buch.woff2") format("woff2");
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: "PPMori-SemiBold";
+      src: url("assets/fonts/PPMori-SemiBold.woff2") format("woff2");
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      letter-spacing: -0.01em;
+      background: #f5f3ed;
+    }
+
+    h1 {
+      /*font-family: "PPMori-SemiBold";*/
+    }
+
+    li {
+      margin-inline-start: 1.5em;
+      margin-block-end: 0.1em;
+    }
+
+    #canvas-container {
+      z-index: -20;
+    }
+
+    /* Info Icon */
+    .info-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 18px;
+      height: 18px;
+      border: 1.5px solid rgba(0, 0, 0, 0.3);
+      border-radius: 50%;
+      font-size: 12px;
+      font-weight: 600;
+      color: rgba(0, 0, 0, 0.3);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+      line-height: 1;
+      padding-bottom: 0px;
+      padding-top: 1px;
+      flex-shrink: 0;
+    }
+
+    .info-icon:hover {
+      background-color: rgba(0, 0, 0, 0.9);
+      border-color: rgba(0, 0, 0, 0.3);
+      color: rgba(255, 255, 255, 0.9);
+      transform: scale(1.1);
+    }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      /*background-color: rgba(0, 0, 0, 0.4);*/
+      background: linear-gradient(135deg, rgba(255,255,255,0.1265) 25%, rgba(255,255,255,0.075) 100%);
+      backdrop-filter: blur(68px);
+      -webkit-backdrop-filter: blur(68px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+      padding: 20px;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: 16px;
+      padding: 32px;
+      max-width: 480px;
+      max-height: 80vh;
+      overflow: scroll;
+      width: 100%;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+      transform: scale(0.95) translateY(10px);
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 1001;
+    }
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      filter: url(#topos);
+      opacity: 0.6;
+      background:  hsl(10deg 30% 95%);
+      z-index: 1000;
+    }
+
+    .modal-overlay.active .modal-content {
+      transform: scale(1) translateY(0);
+    }
+    /* Feature items in modal */
+    .feature-item {
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .feature-item:last-child {
+      border-bottom: none;
+    }
+
+    .feature-dot {
+      width: 4px;
+      height: 4px;
+      background: currentColor;
+      border-radius: 50%;
+      opacity: 0.6;
+    }
+
+    /* Smooth scroll */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* Hero image animation */
+    .hero-image {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .hero-image:hover {
+      transform: scale(1.05) rotate(-2deg);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+      box-shadow: -4px 4px #F56900, -8px 8px #D5C3AD;
+    }
+
+    /* Button hover effects */
+    .btn-primary {
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+      /*transform: translateY(-1px);*/
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    }
+
+    .btn-primary:active {
+      transform: translateY(0);
+    }
+
+    /* Input focus */
+    input:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.05);
+    }
+
+    /* Gradient text */
+    .gradient-text {
+      /*background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);*/
+      background: linear-gradient(90deg,#F56900 8%,#F55600, #F55600, #F55600);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* Hero visual section */
+    .hero-visual {
+      background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+      border-radius: 24px;
+      overflow: hidden;
+    }
+
+    /* <CHANGE> Improved word rotator with fixed height to prevent layout shifts */
+    .word-rotator {
+      display: inline-block;
+      position: relative;
+      vertical-align: baseline;
+      /* Fixed height prevents layout shifts */
+      height: 1.2em;
+      line-height: 1.2;
+    }
+
+    .word-rotator-inner {
+      position: relative;
+      display: inline-block;
+      height: 100%;
+      white-space: nowrap;
+    }
+
+    .rotating-word {
+      display: inline-block;
+      white-space: nowrap;
+      position: absolute;
+      left: 0;
+      top: 0;
+      opacity: 0;
+      will-change: opacity;
+    }
+
+    .rotating-word.active {
+      opacity: 1;
+      position: relative;
+    }
+
+    .realistic-marker-highlight{
+      position:relative;
+    }
+
+    .realistic-marker-highlight:before{
+      content:"";
+      border-bottom: 6px solid rgba(244, 222, 200, 0);
+      width:100%;
+      height:1em;
+      position:absolute;
+      z-index:-1;
+      filter:url(#marker-shape);
+      left:-0.055em;
+      top:0.1em;
+      padding:0 0.25em;
+    }
+
+    /* Fixed width container to prevent horizontal shifts */
+    .word-spacer {
+      visibility: hidden;
+      display: inline-block;
+      white-space: nowrap;
+      position: absolute;
+    }
+
+    /* <CHANGE> Mobile menu styles */
+    .mobile-menu {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 100%;
+      max-width: 320px;
+      background: white;
+      z-index: 50;
+      transform: translateX(100%);
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: -4px 0 24px rgba(0, 0, 0, 0.1);
+    }
+
+    .mobile-menu.active {
+      transform: translateX(0);
+    }
+
+    .mobile-menu-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(68px);
+      -webkit-backdrop-filter: blur(68px);
+      z-index: 49;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .mobile-menu-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* Hamburger icon animation */
+    .hamburger-line {
+      display: block;
+      width: 20px;
+      height: 2px;
+      background: currentColor;
+      transition: all 0.3s ease;
+      transform-origin: center;
+    }
+
+    .hamburger-line:not(:last-child) {
+      margin-bottom: 4px;
+    }
+
+    .hamburger.active .hamburger-line:nth-child(1) {
+      transform: translateY(6px) rotate(45deg);
+    }
+
+    .hamburger.active .hamburger-line:nth-child(2) {
+      opacity: 0;
+    }
+
+    .hamburger.active .hamburger-line:nth-child(3) {
+      transform: translateY(-6px) rotate(-45deg);
+    }
+  </style>
+</head>
+<body class="text-gray-900">
+  <header class="fixed top-0 left-0 right-0 bg-white/90 backdrop-blur-xl border-b border-gray-100 z-40">
+    <nav class="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-12">
+        <a href="#" class="flex items-center group">
+          <svg width="100" height="24" viewBox="0 0 90 21" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-6 w-auto">
+          <path d="M30.7 16.9897H28.6147V4.87915H31.1852L34.9901 14.4979L38.7792 4.87915H41.3519V16.9897H39.2667V8.46063L35.8951 16.9897H34.0693L30.7 8.4786V16.9897Z" fill="#0D0D0D"/>
+          <path d="M51.6562 15.3989C51.3606 15.3989 51.2049 15.2596 51.2049 15.0012V10.8491C51.2049 8.56626 49.4671 7.54395 47.3481 7.54395C45.229 7.54395 43.2114 8.61569 43.0399 10.8311H45.1071C45.229 9.70766 46.2896 9.22234 47.3142 9.22234C48.3388 9.22234 49.1738 9.63801 49.2076 10.7098C49.2076 10.9344 49.0858 11.1254 48.8601 11.2468C48.6344 11.3861 48.253 11.4894 47.7317 11.5411C46.4634 11.6624 45.0552 11.8175 43.9268 12.4398C43.1979 12.8375 42.8323 13.5116 42.8323 14.4822C42.8323 16.437 44.6038 17.1807 46.3257 17.1807C47.8378 17.1807 48.8623 16.6617 49.4356 15.6056C49.4536 15.709 49.4875 15.8123 49.5236 15.9179C49.7312 16.7313 50.4263 16.9897 51.1913 16.9897H52.164V15.3989H51.6607H51.6562ZM49.2054 13.5475C49.2054 14.9316 47.989 15.5719 46.7387 15.5719C45.9037 15.5719 44.8972 15.3293 44.8972 14.3092C44.8972 13.8778 45.071 13.5655 45.4185 13.4105C45.748 13.2554 46.2874 13.1341 47.0005 13.0465C47.6256 12.9611 48.1131 12.8735 48.4606 12.7701C48.8082 12.6847 49.0519 12.5117 49.2076 12.2691V13.5498L49.2054 13.5475Z" fill="#0D0D0D"/>
+          <path d="M58.2756 7.54395C56.9554 7.54395 55.6871 8.16632 55.0101 9.3257L54.8025 7.82031H53.1505V20.4498H55.2177V15.709C55.8789 16.7291 57.0592 17.2481 58.2576 17.2481C60.986 17.2481 62.4281 14.8956 62.4281 12.3522C62.4281 9.80877 61.0198 7.54395 58.2756 7.54395ZM57.8062 15.5203C56.0505 15.5203 55.2177 13.8778 55.2177 12.3028C55.2177 10.7277 56.1046 9.27627 57.7904 9.27627C59.4762 9.27627 60.327 10.7817 60.327 12.3567C60.327 13.9317 59.562 15.5225 57.8085 15.5225L57.8062 15.5203Z" fill="#0D0D0D"/>
+          <path d="M66.2871 5.55324C65.2264 5.8296 65.0369 6.02058 64.757 7.0766C64.739 7.12828 64.7232 7.16198 64.669 7.16198C64.6148 7.16198 64.599 7.12828 64.5832 7.0766C64.3057 6.02058 64.1138 5.83184 63.0532 5.55324C63.0013 5.53526 62.9674 5.51953 62.9674 5.46561C62.9674 5.41168 63.0013 5.39596 63.0532 5.38023C64.1138 5.10387 64.3034 4.91288 64.5832 3.85686C64.6013 3.80519 64.6171 3.77148 64.669 3.77148C64.7209 3.77148 64.739 3.80519 64.757 3.85686C65.0346 4.91288 65.2264 5.10162 66.2871 5.38023C66.339 5.3982 66.3729 5.41393 66.3729 5.46561C66.3729 5.51729 66.339 5.53526 66.2871 5.55324Z" fill="#0D0D0D"/>
+          <path d="M65.6776 7.83838H63.6624V16.9718H65.6776V7.83838Z" fill="#0D0D0D"/>
+          <path d="M66.9119 12.3365C66.9119 9.465 68.7895 7.54395 71.6217 7.54395C74.0184 7.54395 75.8441 8.94598 76.0179 11.3681H74.0026C73.8288 10.0874 72.9081 9.29199 71.6059 9.29199C69.8163 9.29199 68.9994 10.7098 68.9994 12.3365C68.9994 13.9632 69.8502 15.5023 71.6759 15.5023C72.9961 15.5023 73.813 14.6372 74.0049 13.3925H76.0202C75.7764 15.7966 74.0906 17.2503 71.6759 17.2503C68.7218 17.2503 66.9141 15.1405 66.9141 12.3365H66.9119Z" fill="#0D0D0D"/>
+          <path d="M85.609 15.3989C85.3133 15.3989 85.1576 15.2596 85.1576 15.0012V10.8491C85.1576 8.56626 83.4199 7.54395 81.3008 7.54395C79.1817 7.54395 77.1642 8.61569 76.9927 10.8311H79.0599C79.1817 9.70766 80.2424 9.22234 81.267 9.22234C82.2915 9.22234 83.1265 9.63801 83.1604 10.7098C83.1604 10.9344 83.0385 11.1254 82.8128 11.2468C82.5872 11.3861 82.2058 11.4894 81.6845 11.5411C80.4162 11.6624 79.0079 11.8175 77.8796 12.4398C77.1506 12.8375 76.785 13.5116 76.785 14.4822C76.785 16.437 78.5566 17.1807 80.2785 17.1807C81.7905 17.1807 82.8151 16.6617 83.3883 15.6056C83.4064 15.709 83.4402 15.8123 83.4763 15.9179C83.684 16.7313 84.379 16.9897 85.1441 16.9897H86.1167V15.3989H85.6135H85.609ZM83.1581 13.5475C83.1581 14.9316 81.9417 15.5719 80.6915 15.5719C79.8565 15.5719 78.85 15.3293 78.85 14.3092C78.85 13.8778 79.0237 13.5655 79.3713 13.4105C79.7008 13.2554 80.2401 13.1341 80.9533 13.0465C81.5784 12.9611 82.0659 12.8735 82.4134 12.7701C82.7609 12.6847 83.0047 12.5117 83.1604 12.2691V13.5498L83.1581 13.5475Z" fill="#0D0D0D"/>
+          <path d="M89.1727 4.01392H87.1213V16.9895H89.1727V4.01392Z" fill="#0D0D0D"/>
+          <path d="M16.0985 0.810059C16.5422 0.810059 16.9839 0.915758 17.3866 1.13037L20.8104 2.9585C21.4784 3.31538 21.8954 4.01285 21.8954 4.77002C21.8954 5.53019 21.8905 18.0637 21.8905 18.1235C21.8905 19.2472 20.979 20.1587 19.8553 20.1587C19.5252 20.1587 19.1997 20.0795 18.9081 19.9253L17.3739 19.1177C16.976 18.9055 16.5442 18.8013 16.1005 18.8013C15.657 18.8013 15.2158 18.9071 14.8134 19.1216L12.2479 20.4897C11.8452 20.7044 11.4035 20.8101 10.9598 20.8101C10.5162 20.81 10.0744 20.7043 9.67175 20.4897L7.10632 19.1216C6.70383 18.9072 6.25543 18.8013 5.81921 18.8013C5.38275 18.8013 4.94365 18.9079 4.54578 19.1177L3.0116 19.9253C2.71993 20.0795 2.39453 20.1587 2.06433 20.1587C0.940629 20.1587 0.0291748 19.2472 0.0291748 18.1235L0.024292 4.77002C0.024292 4.01047 0.44135 3.31539 1.10925 2.9585L4.53406 1.13037C4.93659 0.915966 5.38011 0.810071 5.82117 0.810059C6.26484 0.810059 6.70852 0.918706 7.11121 1.1333L9.6698 2.50049C10.0725 2.71509 10.5162 2.82372 10.9598 2.82373C11.4035 2.82373 11.8472 2.71506 12.2499 2.50049L14.8085 1.1333C15.2112 0.918693 15.6548 0.810063 16.0985 0.810059ZM16.0966 3.44287C15.9087 3.44287 15.8574 3.59923 15.826 3.69092C15.2714 5.80329 14.9022 6.17295 12.785 6.72998C12.7005 6.75894 12.5419 6.80972 12.5419 6.99756C12.542 7.18527 12.7007 7.23575 12.7899 7.26709C14.9023 7.82171 15.271 8.19143 15.828 10.311H15.829C15.858 10.3956 15.9116 10.5513 16.0966 10.5513C16.2814 10.551 16.3337 10.3992 16.3651 10.3071L16.3661 10.3032C16.9207 8.19104 17.2898 7.82211 19.4091 7.26514H19.41C19.4946 7.23614 19.6502 7.18238 19.6503 6.99756C19.6503 6.81268 19.495 6.75943 19.4032 6.72803L19.4022 6.72705C17.29 6.17248 16.9211 5.80373 16.3641 3.68701C16.3352 3.60268 16.2843 3.44311 16.0966 3.44287Z" fill="#0D0D0D"/>
+          </svg>
+        </a>
+        <div class="hidden md:flex items-center gap-8">
+          <button id="featuresBtn" class="text-gray-600 hover:text-gray-900 text-sm font-medium transition-colors cursor-pointer">Overview</button>
+          <button id="privacyBtn" class="text-gray-600 hover:text-gray-900 text-sm font-medium transition-colors cursor-pointer">Privacy</button>
+        </div>
+      </div>
+      <div class="flex items-center gap-3">
+        <button id="hamburgerBtn" class="md:hidden p-2 text-gray-600 hover:text-gray-900 transition-colors" aria-label="Menu">
+          <div class="hamburger">
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+          </div>
+        </button>
+        <button id="getStartedBtn" class="hidden md:block px-5 py-2 bg-black text-white text-sm font-medium rounded-full hover:bg-gray-900 transition-all hover:shadow-lg">Get started</button>
+      </div>
+    </nav>
+  </header>
+
+  <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+  <div class="mobile-menu" id="mobileMenu">
+    <div class="p-6 space-y-6">
+      <div class="flex items-center justify-between mb-8">
+        <span class="text-sm font-medium text-gray-400"></span>
+        <button id="closeMobileMenu" class="p-2 text-gray-600 hover:text-gray-900 transition-colors" aria-label="Close menu">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M15 5L5 15M5 5L15 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+      <nav class="space-y-1">
+        <button id="mobileFeatures" class="w-full text-left px-4 py-3 text-lg md:text-base font-medium text-gray-900 hover:bg-gray-50 rounded-lg transition-colors">Overview</button>
+        <button id="mobilePrivacy" class="w-full text-left px-4 py-3 text-lg md:text-base font-medium text-gray-900 hover:bg-gray-50 rounded-lg transition-colors">Privacy</button>
+      </nav>
+      <div class="pt-4 border-t border-gray-100">
+        <button id="mobileJoinWaitlist" class="w-full px-5 py-3 bg-black text-white text-base md:text-sm font-medium rounded-full hover:bg-gray-900 transition-all">Join Waitlist</button>
+      </div>
+    </div>
+  </div>
+
+  <main class="min-h-screen px-6 pt-40 pb-20">
+    <div class="max-w-5xl mx-auto text-center space-y-12">
+
+      <div class="space-y-6">
+        <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold text-balance leading-[1.1] tracking-tight">
+          <span class="inline-block whitespace-nowrap">
+            Your
+            <span class="inline-flex items-center gap-3 md:gap-4">
+              <span class="word-rotator" id="wordRotator">
+                <span class="word-rotator-inner realistic-marker-highlight">
+                  <span class="word-spacer" id="wordSpacer">adventures</span>
+                  <span class="rotating-word active">memories</span>
+                  <span class="rotating-word">files</span>
+                  <span class="rotating-word">research</span>
+                  <span class="rotating-word">adventures</span>
+                </span>
+              </span>
+              <img
+                src="assets/images/capture.jpg"
+                alt="Photographer"
+                class="hero-image inline-block w-14 h-14 md:w-16 md:h-16 lg:w-20 lg:h-20 rounded-2xl shadow-xl object-cover"
+              />
+            </span>
+            <br class="block md:hidden" />
+          </span>
+          mapped
+          <br class="hidden md:block" />
+          in <span class="gradient-text">space</span>,
+          <span style="font-style: italic;">not</span> lost in subfolders.
+        </h1>
+
+        <div class="flex flex-col md:flex-row items-center justify-center gap-2 text-center md:text-left">
+          <p class="text-lg md:text-xl text-gray-500 text-pretty max-w-3xl font-medium tracking-tight inline">
+            Auto-organise and share media spatially, the way your mind naturally navigates
+            <button class="info-icon ml-2 md:hidden" id="infoBtnMobile" aria-label="More information">i</button>
+          </p>
+          <button class="info-icon hidden md:inline ml-0 md:ml-2" id="infoBtnDesktop" aria-label="More information">i</button>
+        </div>
+
+
+      </div>
+
+      <div class="space-y-4 pt-4">
+        <form
+          data-waitlist-form
+          id="waitlistForm"
+          class="flex flex-col sm:flex-row gap-3 max-w-2xl mx-auto bg-white/90 rounded-2xl shadow-2xl border border-gray-100 p-2"
+        >
+          <input
+            type="email"
+            name="email"
+            id="emailInput"
+            placeholder="your@email.com"
+            class="flex-1 px-6 py-4 rounded-xl text-lg bg-transparent transition-all"
+            required
+          />
+          <button
+            type="submit"
+            class="btn-primary px-8 py-4 bg-black text-white font-medium rounded-xl whitespace-nowrap text-base transition-all"
+          >
+            Get Early Access
+          </button>
+          <input type="text" name="hpField" style="display:none" autocomplete="off">
+        </form>
+        <p class="text-sm text-gray-400 font-normal"></p>
+      </div>
+
+      <div class="max-h-[100px] flex items-center justify-center" id="canvas-container"></div>
+
+    </div>
+  </main>
+
+  <div class="modal-overlay" id="infoModal">
+    <div class="modal-backdrop"></div>
+    <div class="modal-content">
+      <div class="flex items-start justify-between mb-4">
+        <h3 class="text-lg font-semibold text-gray-900">Why spatial organization?</h3>
+        <button class="text-gray-400 hover:text-gray-600 transition-colors close-modal" aria-label="Close">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M15 5L5 15M5 5L15 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+      <p class="text-gray-600 leading-relaxed">
+        Finding vanilla extract in the grocery store relies on remembering it was two aisles past the produce section, on the middle shelf next to the honey, or how it looked positioned near the organic spices. Modern file systems are like shopping in a massive grocery store where you're stuck at the entrance yelling item names into the void, hoping to find what you need.
+      </p><br>
+
+      <p class="text-gray-600 leading-relaxed">
+        Hierarchical file systems took over in the 1980s with Unix, MS-DOS, and the Mac Finder, and by the 1990s became the default way we store data. Somehow, we still use this '90s model to organize nearly all our digital media.
+      </p><br>
+
+      <p class="text-gray-600 leading-relaxed">
+        Humans don't intuitively think in folder trees. We find things by landmarks: "the café next to Notre Dame," not "City/District/Street/Number", because memory is associative, not nested. Physical spaces give us reference points and relative positioning that our brains naturally use to encode and retrieve information.
+      </p>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="featuresModal">
+    <div class="modal-backdrop"></div>
+    <div class="modal-content">
+      <div class="flex items-start justify-between mb-6">
+        <h3 class="text-lg font-semibold text-gray-900">Overview</h3>
+        <button class="text-gray-400 hover:text-gray-600 transition-colors close-modal" aria-label="Close">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M15 5L5 15M5 5L15 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+      <div class="space-y-1">
+
+        <div class="feature-item">
+          <div class="flex items-start gap-3">
+            <div class="feature-dot mt-3"></div>
+            <p class="text-gray-700 leading-relaxed">Preserve geospatial and emotional meaning</p>
+          </div>
+        </div>
+
+        <div class="feature-item">
+          <div class="flex items-start gap-3">
+            <div class="feature-dot mt-3"></div>
+            <p class="text-gray-700 leading-relaxed">Build personal metaspaces in a click</p>
+          </div>
+        </div>
+
+        <div class="feature-item">
+          <div class="flex items-start gap-3">
+            <div class="feature-dot mt-3"></div>
+            <p class="text-gray-700 leading-relaxed">Import and navigate by landmarks</p>
+          </div>
+        </div>
+
+        <div class="feature-item">
+          <div class="flex items-start gap-3">
+            <div class="feature-dot mt-3"></div>
+            <p class="text-gray-700 leading-relaxed">Create mixed-media collections</p>
+          </div>
+        </div>
+
+        <div class="feature-item">
+          <div class="flex items-start gap-3">
+            <div class="feature-dot mt-3"></div>
+            <p class="text-gray-700 leading-relaxed">Share with the people you trust</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="privacyModal">
+    <div class="modal-backdrop"></div>
+    <div class="modal-content">
+      <div class="flex items-start justify-between mb-4">
+        <h3 class="text-lg font-semibold text-gray-900">Privacy policy</h3>
+        <button class="text-gray-400 hover:text-gray-600 transition-colors close-modal" aria-label="Close">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M15 5L5 15M5 5L15 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+      <p class="text-gray-500 text-sm leading-relaxed">
+        Updated October 8 2025
+      </p><br>
+      <p>Mapical d/b/a Mapical ("we," "us," or "our") has drafted this Privacy Policy to inform you how we process personal data in connection with our services (the "Services").
+          If you have questions about this Privacy Policy, please contact us. As the data controller of your personal data, we are currently operating as a pre-launch project. Additional contact information and organizational details will be provided as Mapical develop.</p><br>
+
+          <p class="font-semibold text-gray-900">Contact Information</p>
+          <p>For questions about this Privacy Policy or your personal data, please contact us at: <a class="text-blue-500" href="mailto:hello@mapical.com">hello@mapical.com ↗</a></p><br>
+
+          <p class="font-semibold text-gray-900">Fair and transparent processing of personal data</p>
+          <p>When we ask you to make your personal data available for us, you will be informed as to which data are processed. This information will be presented to you at the time of collection of the data. In practice, this means, that you will be referred to this privacy policy.</p><br>
+
+          <p class="font-semibold text-gray-900">What information do we collect about you?</p>
+          <p>We process data, that:</p>
+          <ul class="list-disc list-outside pl-2 leading-relaxed mt-0 space-y-0">
+            <li>you voluntarily provide to us.</li>
+            <li>our systems and servers automatically collect when you use our Services.</li>
+          </ul>
+          <p>The data we collect in relevant situations, can include:</p>
+          <ul class="list-disc list-outside pl-2 leading-relaxed mt-0 space-y-0">
+            <li>Regular personal data, including name and email address.</li>
+            <li>Certain log data, including your IP address and online identifiers, the date and time of requests on our Services, the nature and details of requests, device information and operating system, and your approximate location.
+            </li>
+          </ul>
+          <p>At your request, we check that your personal data is not inaccurate or misleading. We will also ensure that your personal data is updated on an ongoing basis. As our service depends on your data being accurate and up to date, we ask you to inform us of any relevant changes to your data.</p><br>
+
+          <p class="font-semibold text-gray-900">How Do We Share Your Information?</p>
+          <p>We use third-party analytics services, including Google Analytics and Hotjar, to help us understand how users interact with our Services. These providers use tracking technologies such as cookies, web beacons, and pixels (collectively, "cookies") to collect information about your usage patterns, such as search queries and site navigation, page visits, bounce rates, and session duration, clicks, scrolling activity, and user interactions, number of visitors and traffic sources, and device and browser information.</p>
+          <p>To learn more about cookies and how to manage them, visit <a class="text-blue-500" href="https://www.aboutcookies.org" target="_blank">www.aboutcookies.org ↗</a> or <a class="text-blue-500" href="http://www.allaboutcookies.org" target="_blank">www.allaboutcookies.org ↗</a>. To opt out of interest-based advertising, visit <a class="text-blue-500" href="https://optout.aboutads.info" target="_blank">optout.aboutads.info ↗</a>. To opt out of Google Analytics tracking across all websites, visit the Google Analytics Opt-Out Browser Add-On download page. To opt out of Hotjar tracking, visit Hotjar's opt-out page at <a class="text-blue-500" href="https://www.hotjar.com/policies/do-not-track/" target="_blank">www.hotjar.com/legal/compliance/opt-out ↗</a>.
+        </p><br>
+
+        <p class="font-semibold text-gray-900">We Only Process Data Lawfully</p>
+        <p>Our legal grounds for processing data are:</p>
+        <ul class="list-disc list-outside pl-2 leading-relaxed mt-0 space-y-0">
+          <li>Our legitimate interests in processing your data, when these interests are not overridden by the interests or fundamental rights and freedoms of you.</li>
+          <li>Processing necessary for the performance of a contract to which you are a party, or in order to take steps at the request of you prior to entering into such a contract.</li>
+          <li>Processing necessary to comply with our legal obligations.</li>
+          <li>Processing to which you have given your consent.</li>
+        </ul><br>
+
+        <p class="font-semibold text-gray-900">What is our purpose for processing?</p>
+        <p>We process personal data to:</p>
+        <ul class="list-disc list-outside pl-2 leading-relaxed mt-0 space-y-0">
+          <li>Communicate about our Services and development progress.</li>
+          <li>Inform design research and product development.</li>
+          <li>Enable us to provide excellent service.</li>
+          <li>Maintain security of our platform.</li>
+          <li>Meet legal obligations.</li>
+        </ul><br>
+
+        <p class="font-semibold text-gray-900">When is It Relevant for us To Process Your Data?</p>
+        <p>We only process data about you that is relevant and sufficient in relation to the purposes defined above. The purpose determines what type of data about you is relevant to us. The same applies to the scope of the personal data we use. For example, we do not use more data than we need for the specific purpose.</p>
+        <p>Before we process your personal data, we examine whether it is possible for us to minimise the amount of data about you.</p>
+        <p>Further, we only process and collect data necessary to fulfill the purposes laid out in the above section.</p><br>
+
+        <p class="font-semibold text-gray-900">What are Your Rights?</p>
+        <p>You have the right of access to information about which of your personal data we process.</p>
+        <p>You have the right to have your personal data corrected and deleted, if the conditions of deletion are met.</p>
+        <p>You have the right to object to the processing of your personal data.</p>
+        <p>You have the right to receive your data and have your data transmitted in a structured, commonly used and machine-readable format, in correspondence with the principles on data portability.</p>
+        <p>You can lodge a complaint with a data protection authority, e.g. the Danish Data Protection Agency, Datatilsynet.</p><br>
+
+        <p class="font-semibold text-gray-900">Storing of your data</p>
+        <p>We only store your data for as long as necessary in relation to our purposes for processing them.</p>
+        <p>In order to document our procedure on the processing of your data in case of an actual eventual dispute to be resolved, and to properly handle your requests, your data will be stored in up to 30 days after our last active processing of the data.</p><br>
+
+        <p class="font-semibold text-gray-900">Changes to This Privacy Policy</p>
+        <p>We continuously optimise and update our privacy policy.</p>
+        <p>If we make changes to this Privacy Policy, we will provide notice of such changes by updating the "last updated" date at the top of this Privacy Policy. Those changes will go into effect on the effective date shown in the revised Privacy Policy. In all cases, by continuing to use our Services, you consent to the revised Privacy Policy. Please print a copy of this Privacy Policy for your records and please check our Services frequently for any changes to this Privacy Policy.</p><br>
+    </div>
+  </div>
+
+  <svg xmlns="http://www.w3.org/2000/svg" version="1.1" class="svg-filters" style="display:none;">
+    <defs>
+      <filter id="marker-shape">
+        <feTurbulence type="fractalNoise" seed="800" baseFrequency="0 0.35" numOctaves="20" result="warp" />
+        <feDisplacementMap xChannelSelector="R" yChannelSelector="G" scale="30" in="SourceGraphic" in2="warp" />
+      </filter>
+    </defs>
+  </svg>
+
+  <svg class="svg-filters" width="0" height="0" viewBox="0 0 0 0" xmlns="http://www.w3.org/2000/svg" version="1.1">
+    <defs>
+      <filter id="topos">
+        <feTurbulence seed="200" type="fractalNoise" baseFrequency="0.0033" numOctaves="10" />
+        <feColorMatrix type="saturate" values="0" result="noise" />
+
+        <feComponentTransfer in="noise" result="h1">
+          <feFuncA type="table" tableValues="-220 100" />
+        </feComponentTransfer>
+        <feMorphology operator="dilate" radius="1" />
+        <feComposite in2="h1" result="a1" operator="out" />
+
+        <feComponentTransfer in="noise" result="h2">
+          <feFuncA type="table" tableValues="-160 100" />
+        </feComponentTransfer>
+        <feMorphology operator="dilate" radius="1" />
+        <feComposite in2="h2" result="a2" operator="out" />
+
+        <feComponentTransfer in="noise" result="h3">
+          <feFuncA type="table" tableValues="-120 100" />
+        </feComponentTransfer>
+        <feMorphology operator="dilate" radius="1" />
+        <feComposite in2="h3" result="a3" operator="out" />
+
+        <feComponentTransfer in="noise" result="h4">
+          <feFuncA type="table" tableValues="-80 100" />
+        </feComponentTransfer>
+        <feMorphology operator="dilate" radius="1" />
+        <feComposite in2="h4" result="a4" operator="out" />
+
+        <feComponentTransfer in="noise" result="h5">
+          <feFuncA type="table" tableValues="-50 100" />
+        </feComponentTransfer>
+        <feMorphology operator="dilate" radius="1" />
+        <feComposite in2="h5" result="a5" operator="out" />
+
+        <feComposite in="a1" in2="a2" result="c1" operator="over" />
+        <feComposite in="c1" in2="a3" result="c2" operator="over" />
+        <feComposite in="c2" in2="a4" result="c3" operator="over" />
+        <feComposite in="c3" in2="a5" result="c4" operator="over" />
+
+        <feComponentTransfer in="c4" result="c5">
+          <feFuncR type="discrete" tableValues="0 1 0 1"/>
+          <feFuncG type="discrete" tableValues="0 1 0 1"/>
+          <feFuncB type="discrete" tableValues="0 1 0 1"/>
+          <feFuncA type="discrete" tableValues="0 1 0 1"/>
+        </feComponentTransfer>
+
+        <feComponentTransfer in="c4" result="c4alpha">
+          <feFuncA type="linear" slope="0.2"/>
+        </feComponentTransfer>
+
+        <feComposite in="SourceAlpha" in2="c5" operator="out" result="alpha" />
+        <feComposite in="SourceGraphic" operator="in" />
+      </filter>
+    </defs>
+  </svg>
+
+  <script>
+  // GSAP animations on load
+  gsap.from('header', {
+    y: -20,
+    opacity: 0,
+    duration: 0.8,
+    ease: 'power3.out'
+  });
+
+  gsap.from('h1', {
+    y: 30,
+    opacity: 0,
+    duration: 1,
+    delay: 0.2,
+    ease: 'power3.out'
+  });
+
+  gsap.from('h1 + div', {
+    y: 20,
+    opacity: 0,
+    duration: 0.8,
+    delay: 0.4,
+    ease: 'power3.out'
+  });
+
+  gsap.from('form', {
+    y: 20,
+    opacity: 0,
+    duration: 0.8,
+    delay: 0.6,
+    ease: 'power3.out'
+  });
+
+  // Mobile menu functionality
+  const hamburgerBtn = document.getElementById('hamburgerBtn');
+  const mobileMenu = document.getElementById('mobileMenu');
+  const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+  const closeMobileMenu = document.getElementById('closeMobileMenu');
+  const hamburger = document.querySelector('.hamburger');
+
+  // Enhanced mobile menu opening with GSAP
+  function openMobileMenu() {
+    mobileMenu.classList.add('active');
+    mobileMenuOverlay.classList.add('active');
+    hamburger.classList.add('active');
+    document.body.style.overflow = 'hidden';
+
+    // Animate overlay
+    gsap.fromTo(mobileMenuOverlay,
+      { opacity: 0 },
+      { opacity: 1, duration: 0.3, ease: 'power2.out' }
+    );
+
+    // Animate menu slide in
+    gsap.fromTo(mobileMenu,
+      { x: '100%' },
+      { x: '0%', duration: 0.4, ease: 'power3.out' }
+    );
+
+    // Stagger animate menu items
+    const menuItems = mobileMenu.querySelectorAll('button, a');
+    gsap.fromTo(menuItems,
+      { opacity: 0, x: 20 },
+      {
+        opacity: 1,
+        x: 0,
+        duration: 0.3,
+        stagger: 0.05,
+        delay: 0.2,
+        ease: 'power2.out'
+      }
+    );
+  }
+
+  // Enhanced mobile menu closing with GSAP
+  function closeMobileMenuFunc() {
+    const menuItems = mobileMenu.querySelectorAll('button, a');
+
+    const tl = gsap.timeline({
+      onComplete: () => {
+        mobileMenu.classList.remove('active');
+        mobileMenuOverlay.classList.remove('active');
+        hamburger.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    });
+
+    // Fade out menu items
+    tl.to(menuItems, {
+      opacity: 0,
+      x: 20,
+      duration: 0.2,
+      stagger: 0.03,
+      ease: 'power2.in'
+    })
+    // Slide menu out
+    .to(mobileMenu, {
+      x: '100%',
+      duration: 0.3,
+      ease: 'power2.in'
+    }, '-=0.1')
+    // Fade overlay
+    .to(mobileMenuOverlay, {
+      opacity: 0,
+      duration: 0.2,
+      ease: 'power2.in'
+    }, '-=0.2');
+  }
+
+  hamburgerBtn.addEventListener('click', openMobileMenu);
+  closeMobileMenu.addEventListener('click', closeMobileMenuFunc);
+  mobileMenuOverlay.addEventListener('click', closeMobileMenuFunc);
+
+  // Enhanced modal opening - apply filter AFTER animation
+  // Enhanced modal opening - animate WITHOUT filter, apply AFTER with delay
+  function openModal(modal) {
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+
+    const backdrop = modal;
+    const content = modal.querySelector('.modal-content, [class*="modal"]');
+
+    // Instantly show backdrop with filter (no animation)
+    gsap.set(backdrop, {
+      opacity: 1
+    });
+
+    // Only animate the modal content
+    if (content) {
+      gsap.fromTo(content,
+        {
+          opacity: 0,
+          scale: 0.9,
+          y: 20
+        },
+        {
+          opacity: 1,
+          scale: 1,
+          y: 0,
+          duration: 0.4,
+          ease: 'power3.out'
+        }
+      );
+    }
+  }
+
+  // Enhanced modal closing - remove filter BEFORE animation
+  function closeModal(modal) {
+    const backdrop = modal;
+    const content = modal.querySelector('.modal-content, [class*="modal"]');
+
+    // Remove filter BEFORE animating for smooth performance
+    backdrop.style.filter = 'none';
+
+    const tl = gsap.timeline({
+      onComplete: () => {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+        // Restore filter for next open
+        backdrop.style.filter = '';
+      }
+    });
+
+    if (content) {
+      tl.to(content, {
+        opacity: 0,
+        scale: 0.95,
+        y: -80,
+        duration: 0.25,
+        ease: 'power2.in'
+      })
+      .to(backdrop, {
+        opacity: 0,
+        duration: 0.2,
+        ease: 'power2.in'
+      }, '-=0.1');
+    } else {
+      tl.to(backdrop, {
+        opacity: 0,
+        duration: 0.2,
+        ease: 'power2.in'
+      });
+    }
+  }
+
+  // Mobile menu navigation
+  document.getElementById('mobileFeatures').addEventListener('click', () => {
+    closeMobileMenuFunc();
+    setTimeout(() => {
+      openModal(featuresModal);
+    }, 400);
+  });
+
+  document.getElementById('mobilePrivacy').addEventListener('click', () => {
+    closeMobileMenuFunc();
+    setTimeout(() => {
+      openModal(privacyModal);
+    }, 400);
+  });
+
+  document.getElementById('mobileJoinWaitlist').addEventListener('click', () => {
+    closeMobileMenuFunc();
+    // Scroll to form and focus
+    const form = document.getElementById('waitlistForm');
+    const emailInput = document.getElementById('emailInput');
+    form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    setTimeout(() => {
+      emailInput.focus();
+      form.classList.add('ring-2', 'ring-black', 'ring-opacity-20');
+      setTimeout(() => {
+        form.classList.remove('ring-2', 'ring-black', 'ring-opacity-20');
+      }, 2000);
+    }, 500);
+  });
+
+  // Desktop "Get started" button functionality
+  const getStartedBtn = document.getElementById('getStartedBtn');
+  if (getStartedBtn) {
+    getStartedBtn.addEventListener('click', () => {
+      const form = document.getElementById('waitlistForm');
+      const emailInput = document.getElementById('emailInput');
+      form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      setTimeout(() => {
+        emailInput.focus();
+        form.classList.add('ring-2', 'ring-black', 'ring-opacity-20');
+        setTimeout(() => {
+          form.classList.remove('ring-2', 'ring-black', 'ring-opacity-20');
+        }, 2000);
+      }, 500);
+    });
+  }
+
+  // Modal functionality
+  const infoBtnMobile = document.getElementById('infoBtnMobile');
+  const infoBtnDesktop = document.getElementById('infoBtnDesktop');
+  const infoModal = document.getElementById('infoModal');
+  const featuresBtn = document.getElementById('featuresBtn');
+  const featuresModal = document.getElementById('featuresModal');
+  const privacyBtn = document.getElementById('privacyBtn');
+  const privacyModal = document.getElementById('privacyModal');
+  const closeButtons = document.querySelectorAll('.close-modal');
+
+  // Open modals with GSAP animations
+  infoBtnMobile.addEventListener('click', () => openModal(infoModal));
+  infoBtnDesktop.addEventListener('click', () => openModal(infoModal));
+  featuresBtn.addEventListener('click', () => openModal(featuresModal));
+  privacyBtn.addEventListener('click', () => openModal(privacyModal));
+
+  // Close modals with GSAP animations
+  closeButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const modals = [infoModal, featuresModal, privacyModal];
+      modals.forEach(modal => {
+        if (modal.classList.contains('active')) {
+          closeModal(modal);
+        }
+      });
+    });
+  });
+
+  // Close on backdrop click
+  [infoModal, featuresModal, privacyModal].forEach(modal => {
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        closeModal(modal);
+      }
+    });
+  });
+
+  // Escape key to close modals and mobile menu
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      [infoModal, featuresModal, privacyModal].forEach(modal => {
+        if (modal.classList.contains('active')) {
+          closeModal(modal);
+        }
+      });
+      if (mobileMenu.classList.contains('active')) {
+        closeMobileMenuFunc();
+      }
+    }
+  });
+  </script>
+
+
+
+<!--Generative Metaspace-->
+
+      <script async src="https://unpkg.com/es-module-shims@1.6.3/dist/es-module-shims.js"></script>
+      <script type="importmap">
+      {
+          "imports": {
+              "three": "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js",
+              "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/",
+              "simplex-noise": "https://cdn.jsdelivr.net/npm/simplex-noise@4.0.3/dist/esm/simplex-noise.js"
+          }
+      }
+      </script>
+
+      <script type="module">
+          import * as THREE from 'three';
+          import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+          import { createNoise2D } from 'simplex-noise';
+
+          // Scene setup
+          const scene = new THREE.Scene();
+          scene.background = new THREE.Color('#f5f3ed');
+
+          const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+          camera.position.set(0, 12, 45);
+
+          const renderer = new THREE.WebGLRenderer({ antialias: true });
+          renderer.setSize(window.innerWidth, window.innerHeight);
+          renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+          renderer.shadowMap.enabled = true;
+          renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+          document.getElementById('canvas-container').appendChild(renderer.domElement);
+
+          const controls = new OrbitControls(camera, renderer.domElement);
+          controls.enableDamping = true;
+          controls.dampingFactor = 0.05;
+          controls.minDistance = 30;
+          controls.maxDistance = 150;
+
+          // Track user interaction
+          let userHasInteracted = false;
+          const onInteraction = () => {
+              userHasInteracted = true;
+          };
+
+          renderer.domElement.addEventListener('mousedown', onInteraction);
+          renderer.domElement.addEventListener('touchstart', onInteraction);
+          renderer.domElement.addEventListener('wheel', onInteraction);
+
+          // Lighting
+          const ambientLight = new THREE.AmbientLight(0xfff4e6, 0.6);
+          scene.add(ambientLight);
+
+          const directionalLight = new THREE.DirectionalLight(0xfff8dc, 1.5);
+          directionalLight.position.set(30, 40, 20);
+          directionalLight.castShadow = true;
+          directionalLight.shadow.mapSize.width = 2048;
+          directionalLight.shadow.mapSize.height = 2048;
+          directionalLight.shadow.camera.near = 0.5;
+          directionalLight.shadow.camera.far = 200;
+          directionalLight.shadow.camera.left = -100;
+          directionalLight.shadow.camera.right = 100;
+          directionalLight.shadow.camera.top = 100;
+          directionalLight.shadow.camera.bottom = -100;
+          scene.add(directionalLight);
+
+          // Warm fill light
+          const fillLight = new THREE.DirectionalLight(0xe8d4b8, 0.4);
+          fillLight.position.set(-20, 15, -15);
+          scene.add(fillLight);
+
+          // Sky light
+          const skyLight = new THREE.HemisphereLight(0x87ceeb, 0xd2b48c, 0.5);
+          scene.add(skyLight);
+
+          // Noise function
+          const noise2D = createNoise2D();
+
+          function getHeight(x, y) {
+              let height = 0;
+              height += noise2D(x * 0.02, y * 0.02) * 6;
+              height += noise2D(x * 0.04, y * 0.04) * 3;
+              height += noise2D(x * 0.08, y * 0.08) * 1.5;
+              height += noise2D(x * 0.16, y * 0.16) * 0.66;
+              return height;
+          }
+
+          // Create contour lines
+          function createContourLines() {
+              const contourLevels = [];
+              for (let i = -12; i <= 16; i += 0.5) {
+                  contourLevels.push(i);
+              }
+              const size = 100;
+              const segments = 200;
+              const lineGroup = new THREE.Group();
+
+              contourLevels.forEach((level) => {
+                  const lineSegments = [];
+
+                  for (let i = 0; i < segments; i++) {
+                      for (let j = 0; j < segments; j++) {
+                          const x = -size / 2 + (i / segments) * size;
+                          const y = -size / 2 + (j / segments) * size;
+                          const step = size / segments;
+
+                          const h00 = getHeight(x, y);
+                          const h10 = getHeight(x + step, y);
+                          const h01 = getHeight(x, y + step);
+                          const h11 = getHeight(x + step, y + step);
+
+                          if ((h00 < level && h10 >= level) || (h00 >= level && h10 < level)) {
+                              const t = (level - h00) / (h10 - h00);
+                              lineSegments.push(new THREE.Vector3(x + t * step, y, level + 0.15));
+                          }
+
+                          if ((h00 < level && h01 >= level) || (h00 >= level && h01 < level)) {
+                              const t = (level - h00) / (h01 - h00);
+                              lineSegments.push(new THREE.Vector3(x, y + t * step, level + 0.15));
+                          }
+
+                          if ((h01 < level && h11 >= level) || (h01 >= level && h11 < level)) {
+                              const t = (level - h01) / (h11 - h01);
+                              lineSegments.push(new THREE.Vector3(x + t * step, y + step, level + 0.15));
+                          }
+
+                          if ((h10 < level && h11 >= level) || (h10 >= level && h11 < level)) {
+                              const t = (level - h10) / (h11 - h10);
+                              lineSegments.push(new THREE.Vector3(x + step, y + t * step, level + 0.15));
+                          }
+                      }
+                  }
+
+                  if (lineSegments.length > 0) {
+                      const lineGeometry = new THREE.BufferGeometry().setFromPoints(lineSegments);
+                      const lineMaterial = new THREE.LineBasicMaterial({
+                          color: 0xf5f3ed,
+                          opacity: 0.35,
+                          transparent: true
+                      });
+                      const line = new THREE.LineSegments(lineGeometry, lineMaterial);
+                      lineGroup.add(line);
+                  }
+              });
+
+              return lineGroup;
+          }
+
+          // Create Terrain Chunk
+          function createTerrainChunk(offsetZ) {
+              const size = 100;
+              const segments = 200;
+              const geometry = new THREE.PlaneGeometry(size, size, segments, segments);
+              const positions = geometry.attributes.position.array;
+              const colors = new Float32Array(positions.length);
+
+              for (let i = 0; i < positions.length; i += 3) {
+                  const x = positions[i];
+                  const y = positions[i + 1];
+                  const height = getHeight(x, y + offsetZ);
+                  positions[i + 2] = height;
+
+                  let r, g, b;
+                  const noiseVariation = (noise2D(x * 0.5, y * 0.5) + 1) * 0.5;
+
+                  if (height < -2) {
+                      // Low areas - golden/tan valleys with variation
+                      r = 0.78 + noiseVariation * 0.12;
+                      g = 0.64 + noiseVariation * 0.10;
+                      b = 0.38 + noiseVariation * 0.08;
+                  } else if (height < 2) {
+                      // Lower mid areas - transitional olive/tan
+                      r = 0.68 + noiseVariation * 0.10;
+                      g = 0.65 + noiseVariation * 0.08;
+                      b = 0.42 + noiseVariation * 0.08;
+                  } else if (height < 5) {
+                      // Mid areas - sage green/olive
+                      r = 0.52 + noiseVariation * 0.12;
+                      g = 0.58 + noiseVariation * 0.10;
+                      b = 0.38 + noiseVariation * 0.08;
+                  } else if (height < 8) {
+                      // Higher areas - dry grass/wheat
+                      r = 0.72 + noiseVariation * 0.10;
+                      g = 0.68 + noiseVariation * 0.10;
+                      b = 0.48 + noiseVariation * 0.10;
+                  } else {
+                      // Highest areas - sun-bleached tan/beige
+                      r = 0.82 + noiseVariation * 0.10;
+                      g = 0.76 + noiseVariation * 0.08;
+                      b = 0.58 + noiseVariation * 0.10;
+                  }
+
+                  colors[i] = r;
+                  colors[i + 1] = g;
+                  colors[i + 2] = b;
+              }
+
+              geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+              geometry.computeVertexNormals();
+
+              const material = new THREE.MeshStandardMaterial({
+                  vertexColors: true,
+                  flatShading: false,
+                  transparent: false,
+                  opacity: 1,
+                  roughness: 0.95,
+                  metalness: 0.02,
+                  envMapIntensity: 0.3
+              });
+
+              const mesh = new THREE.Mesh(geometry, material);
+              mesh.receiveShadow = true;
+              mesh.castShadow = true;
+              const group = new THREE.Group();
+              group.add(mesh);
+
+              const contourLines = createContourLines();
+              group.add(contourLines);
+
+              group.position.y = offsetZ;
+
+              return { group, offset: offsetZ };
+          }
+
+          function createRoundedRectShape(width, height, radius) {
+            const shape = new THREE.Shape()
+            const x = -width / 2
+            const y = -height / 2
+
+            shape.moveTo(x, y + radius)
+            shape.lineTo(x, y + height - radius)
+            shape.quadraticCurveTo(x, y + height, x + radius, y + height)
+            shape.lineTo(x + width - radius, y + height)
+            shape.quadraticCurveTo(x + width, y + height, x + width, y + height - radius)
+            shape.lineTo(x + width, y + radius)
+            shape.quadraticCurveTo(x + width, y, x + width - radius, y)
+            shape.lineTo(x + radius, y)
+            shape.quadraticCurveTo(x, y, x, y + radius)
+
+            return shape
+          }
+
+          // Make sure the renderer uses sRGB output for correct colors
+          renderer.outputEncoding = THREE.sRGBEncoding; // if Three.js < r152
+          // For r152+ use:
+          // renderer.outputColorSpace = THREE.SRGBColorSpace;
+
+          function createRoundedTexture(image, width, height, radius) {
+            const canvas = document.createElement("canvas");
+
+            const aspect = width / height;
+            canvas.width = 1024;
+            canvas.height = Math.round(canvas.width / aspect);
+
+            const ctx = canvas.getContext("2d");
+            const w = canvas.width;
+            const h = canvas.height;
+            const r = radius * (w / width);
+
+            ctx.beginPath();
+            ctx.moveTo(r, 0);
+            ctx.lineTo(w - r, 0);
+            ctx.quadraticCurveTo(w, 0, w, r);
+            ctx.lineTo(w, h - r);
+            ctx.quadraticCurveTo(w, h, w - r, h);
+            ctx.lineTo(r, h);
+            ctx.quadraticCurveTo(0, h, 0, h - r);
+            ctx.lineTo(0, r);
+            ctx.quadraticCurveTo(0, 0, r, 0);
+            ctx.closePath();
+            ctx.clip();
+
+            const imgRatio = image.width / image.height;
+            const cardRatio = w / h;
+            let drawWidth, drawHeight, offsetX, offsetY;
+
+            if (imgRatio > cardRatio) {
+              drawHeight = h;
+              drawWidth = h * imgRatio;
+              offsetX = (w - drawWidth) / 2;
+              offsetY = 0;
+            } else {
+              drawWidth = w;
+              drawHeight = w / imgRatio;
+              offsetX = 0;
+              offsetY = (h - drawHeight) / 2;
+            }
+
+            ctx.drawImage(image, offsetX, offsetY, drawWidth, drawHeight);
+
+            const texture = new THREE.CanvasTexture(canvas);
+
+            if ('colorSpace' in texture) texture.colorSpace = THREE.SRGBColorSpace;
+            else texture.encoding = THREE.sRGBEncoding;
+
+            // Smooth scaling
+            texture.minFilter = THREE.LinearMipmapLinearFilter;
+            texture.magFilter = THREE.LinearFilter;
+            texture.generateMipmaps = true;
+
+            return texture;
+          }
+
+          function createRoundedCardMaterial(color, roughness, metalness) {
+            const canvas = document.createElement('canvas');
+            canvas.width = 512;
+            canvas.height = 512;
+            const ctx = canvas.getContext('2d');
+
+            // Rounded rectangle fill
+            const radius = 40; // corner roundness in pixels
+            ctx.fillStyle = color;
+            ctx.beginPath();
+            ctx.roundRect(0, 0, 512, 512, radius);
+            ctx.fill();
+
+            const texture = new THREE.CanvasTexture(canvas);
+            if ('colorSpace' in texture) texture.colorSpace = THREE.SRGBColorSpace;
+            else texture.encoding = THREE.sRGBEncoding;
+
+            return new THREE.MeshStandardMaterial({
+              map: texture,
+              transparent: true,
+              roughness: roughness,
+              metalness: metalness,
+              side: THREE.DoubleSide
+            });
+          }
+
+          function createPhotocard(position, imageUrl) {
+            const cardGroup = new THREE.Group();
+
+            const cardWidth = 5;
+            const cardHeight = 6;
+            const cornerRadius = 0.2;
+
+            const backGeometry = new THREE.PlaneGeometry(cardWidth, cardHeight);
+            const backMaterial = createRoundedCardMaterial('#f5f5f5', 0.7, 0.1);
+            const back = new THREE.Mesh(backGeometry, backMaterial);
+            back.position.z = -0.02;
+            back.castShadow = true;
+            back.receiveShadow = true;
+            cardGroup.add(back);
+
+            const frontGeometry = new THREE.PlaneGeometry(cardWidth, cardHeight);
+            const frontMaterial = createRoundedCardMaterial('#ffffff', 0.3, 0.05);
+            const front = new THREE.Mesh(frontGeometry, frontMaterial);
+            front.castShadow = true;
+            front.receiveShadow = true;
+            cardGroup.add(front);
+
+            const imageGeometry = new THREE.PlaneGeometry(cardWidth, cardHeight);
+            const imageMaterial = new THREE.MeshBasicMaterial({
+                side: THREE.DoubleSide,
+                transparent: true,
+            });
+
+            const textureLoader = new THREE.TextureLoader();
+            textureLoader.load(imageUrl, (texture) => {
+              const img = texture.image;
+              const roundedTexture = createRoundedTexture(
+                img,
+                cardWidth,
+                cardHeight,
+                cornerRadius
+              );
+              imageMaterial.map = roundedTexture;
+              imageMaterial.needsUpdate = true;
+            });
+
+            const imageMesh = new THREE.Mesh(imageGeometry, imageMaterial);
+            imageMesh.position.set(0, 0, 0.02);
+            imageMesh.castShadow = true;
+            imageMesh.receiveShadow = true;
+            cardGroup.add(imageMesh);
+
+            cardGroup.position.set(position[0], position[1], position[2]);
+            return cardGroup;
+          }
+
+          /* ----------------------------------------------------
+             4. Spatial Placement of Media
+          ---------------------------------------------------- */
+          const terrainGroup = new THREE.Group();
+          terrainGroup.rotation.x = -Math.PI / 2;
+          scene.add(terrainGroup);
+
+          const terrainChunk = createTerrainChunk(0);
+          terrainGroup.add(terrainChunk.group);
+
+          const photocardData = [
+            { x: -15, z: 20, image: 'assets/images/wav_thumbnail_2.webp' },
+            { x: 25,  z: -15, image: 'assets/images/trail_2.webp' },
+            { x: -30, z: -25, image: 'assets/images/trail_3.webp' },
+            { x: 30,  z: 25, image: 'assets/images/trail_4.webp' },
+            { x: 50,  z: 15, image: 'assets/images/document_thumbnail.webp' },
+            { x: 0,   z: 0,  image: 'assets/images/trail_5.webp' }
+          ];
+
+          const photocards = photocardData.map((data) => {
+            const height = getHeight(data.x, data.z);
+            const card = createPhotocard(
+              [data.x, data.z, height + 3],
+              data.image
+            );
+            terrainGroup.add(card);
+            return { card, baseHeight: height + 3, x: data.x, z: data.z };
+          });
+
+          const raycaster = new THREE.Raycaster();
+          const mouse = new THREE.Vector2();
+          let hoveredCard = null;
+
+          window.addEventListener('mousemove', (event) => {
+              const rect = renderer.domElement.getBoundingClientRect();
+              mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+              mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+              raycaster.setFromCamera(mouse, camera);
+
+              const allMeshes = [];
+              photocards.forEach(p => {
+                  p.card.traverse((child) => {
+                      if (child.isMesh) allMeshes.push(child);
+                  });
+              });
+
+              const intersects = raycaster.intersectObjects(allMeshes);
+
+              if (hoveredCard) {
+                  hoveredCard.userData.targetScale = 1;
+                  hoveredCard.userData.targetLift = 0;
+                  hoveredCard = null;
+                  document.body.style.cursor = 'default';
+              }
+
+              if (intersects.length > 0) {
+                  let object = intersects[0].object;
+                  while (object.parent !== terrainGroup) {
+                      object = object.parent;
+                  }
+                  hoveredCard = object;
+                  hoveredCard.userData.targetScale = 1.2;
+                  hoveredCard.userData.targetLift = 1;
+                  document.body.style.cursor = 'pointer';
+              }
+          });
+
+
+          const clock = new THREE.Clock();
+          const autoFlyStartTime = clock.getElapsedTime();
+
+          function animate() {
+              requestAnimationFrame(animate);
+
+              const elapsedTime = clock.getElapsedTime();
+
+              if (!userHasInteracted) {
+                  const flyTime = (elapsedTime - autoFlyStartTime) * 0.069;
+
+                  const radius = 45;
+                  const height = 12 + Math.sin(flyTime * 0.3) * 2;
+
+                  camera.position.x = Math.sin(flyTime + Math.PI * 0) * radius;
+                  camera.position.y = height;
+                  camera.position.z = Math.cos(flyTime + Math.PI * 0) * radius;
+
+                  const lookAtTarget = new THREE.Vector3(
+                      Math.sin(flyTime * 0.5) * 3,
+                      8,
+                      Math.cos(flyTime * 0.5) * 3
+                  );
+                  camera.lookAt(lookAtTarget);
+
+                  controls.target.copy(lookAtTarget);
+              }
+
+              photocards.forEach(p => {
+                  const targetScale = p.card.userData.targetScale || 1;
+                  const targetLift = p.card.userData.targetLift || 0;
+                  const currentScale = p.card.scale.x;
+                  const currentZ = p.card.position.z;
+
+                  const newScale = currentScale + (targetScale - currentScale) * 0.15;
+                  p.card.scale.set(newScale, newScale, newScale);
+
+                  const newZ = currentZ + ((p.baseHeight + targetLift) - currentZ) * 0.15;
+                  p.card.position.z = newZ;
+              });
+
+              photocards.forEach((photocard) => {
+                  photocard.card.position.z = photocard.baseHeight + Math.sin(elapsedTime * 0.5 + photocard.x) * 0.3;
+                  photocard.card.lookAt(camera.position);
+              });
+
+              controls.update();
+              renderer.render(scene, camera);
+          }
+
+          window.addEventListener('resize', () => {
+              camera.aspect = window.innerWidth / window.innerHeight;
+              camera.updateProjectionMatrix();
+              renderer.setSize(window.innerWidth, window.innerHeight);
+          });
+
+          animate();
+      </script>
+
+
+      <script>
+      (function() {
+        const spacer = document.getElementById('wordSpacer');
+        const words = document.querySelectorAll('.rotating-word');
+        const inner = document.querySelector('.word-rotator-inner');
+        const heroImage = document.querySelector('.hero-image');
+        let currentIndex = 0;
+
+        // Image map
+        const imageMap = {
+          'memories': 'assets/images/memories.webp',
+          'files': 'assets/images/files.webp',
+          'research': 'assets/images/research.webp',
+          'adventures': 'assets/images/adventures.webp'
+        };
+
+        // Preload images
+        Object.values(imageMap).forEach(src => {
+          const img = new Image();
+          img.src = src;
+        });
+
+        spacer.textContent = words[0].textContent;
+        gsap.set(inner, { width: spacer.offsetWidth });
+
+        function rotateWord() {
+          const currentWord = words[currentIndex];
+          const nextIndex = (currentIndex + 1) % words.length;
+          const nextWord = words[nextIndex];
+          const nextWordText = nextWord.textContent.trim();
+          const newImageSrc = imageMap[nextWordText];
+
+          spacer.textContent = nextWord.textContent;
+          const nextWidth = spacer.offsetWidth;
+          spacer.textContent = currentWord.textContent;
+
+          const tl = gsap.timeline();
+
+          tl.to(inner, {
+            width: nextWidth,
+            duration: 0.7,
+            ease: 'power2.inOut'
+          })
+          .to(currentWord, {
+            opacity: 0,
+            duration: 0.5,
+            ease: 'power2.inOut'
+          }, 0);
+
+          // Image transition synced with word fade
+          if (newImageSrc && heroImage.src.indexOf(newImageSrc) === -1) {
+            tl.to(heroImage, {
+              opacity: 0,
+              duration: 0.4,
+              ease: 'power2.inOut'
+            }, 0)
+            .add(() => {
+              heroImage.src = newImageSrc;
+            })
+            .to(heroImage, {
+              opacity: 1,
+              duration: 0.4,
+              ease: 'power2.inOut'
+            });
+          }
+
+          tl.fromTo(nextWord,
+            { opacity: 0 },
+            { opacity: 1, duration: 0.5, ease: 'power2.inOut' },
+            0.2
+          );
+
+          tl.add(() => {
+            spacer.textContent = nextWord.textContent;
+            currentIndex = nextIndex;
+          });
+        }
+
+        setInterval(rotateWord, 3000);
+      })();
+      </script>
+
+
+
+      <script type="text/javascript" defer src="src/form_handler.js"></script>
+      <script type="text/javascript" src="src/preloader.js"></script>
+
+</body>
+</html>
