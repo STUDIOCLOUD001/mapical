@@ -1,7 +1,6 @@
-// Import dependencies from CDN
-import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js';
-import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/controls/OrbitControls.js';
-import { createNoise2D } from 'https://cdn.jsdelivr.net/npm/simplex-noise@4.0.3/dist/esm/simplex-noise.js';
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { createNoise2D } from 'simplex-noise';
 
 // Scene setup
 const scene = new THREE.Scene();
@@ -15,7 +14,6 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-renderer.outputEncoding = THREE.sRGBEncoding;
 document.getElementById('canvas-container').appendChild(renderer.domElement);
 
 const controls = new OrbitControls(camera, renderer.domElement);
@@ -51,10 +49,12 @@ directionalLight.shadow.camera.top = 100;
 directionalLight.shadow.camera.bottom = -100;
 scene.add(directionalLight);
 
+// Warm fill light
 const fillLight = new THREE.DirectionalLight(0xe8d4b8, 0.4);
 fillLight.position.set(-20, 15, -15);
 scene.add(fillLight);
 
+// Sky light
 const skyLight = new THREE.HemisphereLight(0x87ceeb, 0xd2b48c, 0.5);
 scene.add(skyLight);
 
@@ -219,6 +219,9 @@ function createRoundedRectShape(width, height, radius) {
 
   return shape
 }
+
+// Make sure the renderer uses sRGB output for correct colors
+renderer.outputEncoding = THREE.sRGBEncoding;
 
 function createRoundedTexture(image, width, height, radius) {
   const canvas = document.createElement("canvas");
