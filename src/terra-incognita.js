@@ -1,6 +1,5 @@
-// terrain-scene.js - Standalone 3D Terrain Visualization by Mapical
-
-// import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js';
+// Import dependencies from CDN
+import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js';
 import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/controls/OrbitControls.js';
 import { createNoise2D } from 'https://cdn.jsdelivr.net/npm/simplex-noise@4.0.3/dist/esm/simplex-noise.js';
 
@@ -203,135 +202,153 @@ function createTerrainChunk(offsetZ) {
     return { group, offset: offsetZ };
 }
 
+function createRoundedRectShape(width, height, radius) {
+  const shape = new THREE.Shape()
+  const x = -width / 2
+  const y = -height / 2
+
+  shape.moveTo(x, y + radius)
+  shape.lineTo(x, y + height - radius)
+  shape.quadraticCurveTo(x, y + height, x + radius, y + height)
+  shape.lineTo(x + width - radius, y + height)
+  shape.quadraticCurveTo(x + width, y + height, x + width, y + height - radius)
+  shape.lineTo(x + width, y + radius)
+  shape.quadraticCurveTo(x + width, y, x + width - radius, y)
+  shape.lineTo(x + radius, y)
+  shape.quadraticCurveTo(x, y, x, y + radius)
+
+  return shape
+}
+
 function createRoundedTexture(image, width, height, radius) {
-    const canvas = document.createElement("canvas");
+  const canvas = document.createElement("canvas");
 
-    const aspect = width / height;
-    canvas.width = 1024;
-    canvas.height = Math.round(canvas.width / aspect);
+  const aspect = width / height;
+  canvas.width = 1024;
+  canvas.height = Math.round(canvas.width / aspect);
 
-    const ctx = canvas.getContext("2d");
-    const w = canvas.width;
-    const h = canvas.height;
-    const r = radius * (w / width);
+  const ctx = canvas.getContext("2d");
+  const w = canvas.width;
+  const h = canvas.height;
+  const r = radius * (w / width);
 
-    ctx.beginPath();
-    ctx.moveTo(r, 0);
-    ctx.lineTo(w - r, 0);
-    ctx.quadraticCurveTo(w, 0, w, r);
-    ctx.lineTo(w, h - r);
-    ctx.quadraticCurveTo(w, h, w - r, h);
-    ctx.lineTo(r, h);
-    ctx.quadraticCurveTo(0, h, 0, h - r);
-    ctx.lineTo(0, r);
-    ctx.quadraticCurveTo(0, 0, r, 0);
-    ctx.closePath();
-    ctx.clip();
+  ctx.beginPath();
+  ctx.moveTo(r, 0);
+  ctx.lineTo(w - r, 0);
+  ctx.quadraticCurveTo(w, 0, w, r);
+  ctx.lineTo(w, h - r);
+  ctx.quadraticCurveTo(w, h, w - r, h);
+  ctx.lineTo(r, h);
+  ctx.quadraticCurveTo(0, h, 0, h - r);
+  ctx.lineTo(0, r);
+  ctx.quadraticCurveTo(0, 0, r, 0);
+  ctx.closePath();
+  ctx.clip();
 
-    const imgRatio = image.width / image.height;
-    const cardRatio = w / h;
-    let drawWidth, drawHeight, offsetX, offsetY;
+  const imgRatio = image.width / image.height;
+  const cardRatio = w / h;
+  let drawWidth, drawHeight, offsetX, offsetY;
 
-    if (imgRatio > cardRatio) {
-        drawHeight = h;
-        drawWidth = h * imgRatio;
-        offsetX = (w - drawWidth) / 2;
-        offsetY = 0;
-    } else {
-        drawWidth = w;
-        drawHeight = w / imgRatio;
-        offsetX = 0;
-        offsetY = (h - drawHeight) / 2;
-    }
+  if (imgRatio > cardRatio) {
+    drawHeight = h;
+    drawWidth = h * imgRatio;
+    offsetX = (w - drawWidth) / 2;
+    offsetY = 0;
+  } else {
+    drawWidth = w;
+    drawHeight = w / imgRatio;
+    offsetX = 0;
+    offsetY = (h - drawHeight) / 2;
+  }
 
-    ctx.drawImage(image, offsetX, offsetY, drawWidth, drawHeight);
+  ctx.drawImage(image, offsetX, offsetY, drawWidth, drawHeight);
 
-    const texture = new THREE.CanvasTexture(canvas);
+  const texture = new THREE.CanvasTexture(canvas);
 
-    if ('colorSpace' in texture) texture.colorSpace = THREE.SRGBColorSpace;
-    else texture.encoding = THREE.sRGBEncoding;
+  if ('colorSpace' in texture) texture.colorSpace = THREE.SRGBColorSpace;
+  else texture.encoding = THREE.sRGBEncoding;
 
-    texture.minFilter = THREE.LinearMipmapLinearFilter;
-    texture.magFilter = THREE.LinearFilter;
-    texture.generateMipmaps = true;
+  texture.minFilter = THREE.LinearMipmapLinearFilter;
+  texture.magFilter = THREE.LinearFilter;
+  texture.generateMipmaps = true;
 
-    return texture;
+  return texture;
 }
 
 function createRoundedCardMaterial(color, roughness, metalness) {
-    const canvas = document.createElement('canvas');
-    canvas.width = 512;
-    canvas.height = 512;
-    const ctx = canvas.getContext('2d');
+  const canvas = document.createElement('canvas');
+  canvas.width = 512;
+  canvas.height = 512;
+  const ctx = canvas.getContext('2d');
 
-    const radius = 40;
-    ctx.fillStyle = color;
-    ctx.beginPath();
-    ctx.roundRect(0, 0, 512, 512, radius);
-    ctx.fill();
+  const radius = 40;
+  ctx.fillStyle = color;
+  ctx.beginPath();
+  ctx.roundRect(0, 0, 512, 512, radius);
+  ctx.fill();
 
-    const texture = new THREE.CanvasTexture(canvas);
-    if ('colorSpace' in texture) texture.colorSpace = THREE.SRGBColorSpace;
-    else texture.encoding = THREE.sRGBEncoding;
+  const texture = new THREE.CanvasTexture(canvas);
+  if ('colorSpace' in texture) texture.colorSpace = THREE.SRGBColorSpace;
+  else texture.encoding = THREE.sRGBEncoding;
 
-    return new THREE.MeshStandardMaterial({
-        map: texture,
-        transparent: true,
-        roughness: roughness,
-        metalness: metalness,
-        side: THREE.DoubleSide
-    });
+  return new THREE.MeshStandardMaterial({
+    map: texture,
+    transparent: true,
+    roughness: roughness,
+    metalness: metalness,
+    side: THREE.DoubleSide
+  });
 }
 
 function createPhotocard(position, imageUrl) {
-    const cardGroup = new THREE.Group();
+  const cardGroup = new THREE.Group();
 
-    const cardWidth = 5;
-    const cardHeight = 6;
-    const cornerRadius = 0.2;
+  const cardWidth = 5;
+  const cardHeight = 6;
+  const cornerRadius = 0.2;
 
-    const backGeometry = new THREE.PlaneGeometry(cardWidth, cardHeight);
-    const backMaterial = createRoundedCardMaterial('#f5f5f5', 0.7, 0.1);
-    const back = new THREE.Mesh(backGeometry, backMaterial);
-    back.position.z = -0.02;
-    back.castShadow = true;
-    back.receiveShadow = true;
-    cardGroup.add(back);
+  const backGeometry = new THREE.PlaneGeometry(cardWidth, cardHeight);
+  const backMaterial = createRoundedCardMaterial('#f5f5f5', 0.7, 0.1);
+  const back = new THREE.Mesh(backGeometry, backMaterial);
+  back.position.z = -0.02;
+  back.castShadow = true;
+  back.receiveShadow = true;
+  cardGroup.add(back);
 
-    const frontGeometry = new THREE.PlaneGeometry(cardWidth, cardHeight);
-    const frontMaterial = createRoundedCardMaterial('#ffffff', 0.3, 0.05);
-    const front = new THREE.Mesh(frontGeometry, frontMaterial);
-    front.castShadow = true;
-    front.receiveShadow = true;
-    cardGroup.add(front);
+  const frontGeometry = new THREE.PlaneGeometry(cardWidth, cardHeight);
+  const frontMaterial = createRoundedCardMaterial('#ffffff', 0.3, 0.05);
+  const front = new THREE.Mesh(frontGeometry, frontMaterial);
+  front.castShadow = true;
+  front.receiveShadow = true;
+  cardGroup.add(front);
 
-    const imageGeometry = new THREE.PlaneGeometry(cardWidth, cardHeight);
-    const imageMaterial = new THREE.MeshBasicMaterial({
-        side: THREE.DoubleSide,
-        transparent: true,
-    });
+  const imageGeometry = new THREE.PlaneGeometry(cardWidth, cardHeight);
+  const imageMaterial = new THREE.MeshBasicMaterial({
+      side: THREE.DoubleSide,
+      transparent: true,
+  });
 
-    const textureLoader = new THREE.TextureLoader();
-    textureLoader.load(imageUrl, (texture) => {
-        const img = texture.image;
-        const roundedTexture = createRoundedTexture(
-            img,
-            cardWidth,
-            cardHeight,
-            cornerRadius
-        );
-        imageMaterial.map = roundedTexture;
-        imageMaterial.needsUpdate = true;
-    });
+  const textureLoader = new THREE.TextureLoader();
+  textureLoader.load(imageUrl, (texture) => {
+    const img = texture.image;
+    const roundedTexture = createRoundedTexture(
+      img,
+      cardWidth,
+      cardHeight,
+      cornerRadius
+    );
+    imageMaterial.map = roundedTexture;
+    imageMaterial.needsUpdate = true;
+  });
 
-    const imageMesh = new THREE.Mesh(imageGeometry, imageMaterial);
-    imageMesh.position.set(0, 0, 0.02);
-    imageMesh.castShadow = true;
-    imageMesh.receiveShadow = true;
-    cardGroup.add(imageMesh);
+  const imageMesh = new THREE.Mesh(imageGeometry, imageMaterial);
+  imageMesh.position.set(0, 0, 0.02);
+  imageMesh.castShadow = true;
+  imageMesh.receiveShadow = true;
+  cardGroup.add(imageMesh);
 
-    cardGroup.position.set(position[0], position[1], position[2]);
-    return cardGroup;
+  cardGroup.position.set(position[0], position[1], position[2]);
+  return cardGroup;
 }
 
 // Spatial Placement of Media
@@ -343,22 +360,22 @@ const terrainChunk = createTerrainChunk(0);
 terrainGroup.add(terrainChunk.group);
 
 const photocardData = [
-    { x: -15, z: 20, image: 'assets/images/wav_thumbnail_2.webp' },
-    { x: 25, z: -15, image: 'assets/images/trail_2.webp' },
-    { x: -30, z: -25, image: 'assets/images/trail_3.webp' },
-    { x: 30, z: 25, image: 'assets/images/trail_4.webp' },
-    { x: 50, z: 15, image: 'assets/images/document_thumbnail.webp' },
-    { x: 0, z: 0, image: 'assets/images/trail_5.webp' }
+  { x: -15, z: 20, image: 'assets/images/wav_thumbnail_2.webp' },
+  { x: 25,  z: -15, image: 'assets/images/trail_2.webp' },
+  { x: -30, z: -25, image: 'assets/images/trail_3.webp' },
+  { x: 30,  z: 25, image: 'assets/images/trail_4.webp' },
+  { x: 50,  z: 15, image: 'assets/images/document_thumbnail.webp' },
+  { x: 0,   z: 0,  image: 'assets/images/trail_5.webp' }
 ];
 
 const photocards = photocardData.map((data) => {
-    const height = getHeight(data.x, data.z);
-    const card = createPhotocard(
-        [data.x, data.z, height + 3],
-        data.image
-    );
-    terrainGroup.add(card);
-    return { card, baseHeight: height + 3, x: data.x, z: data.z };
+  const height = getHeight(data.x, data.z);
+  const card = createPhotocard(
+    [data.x, data.z, height + 3],
+    data.image
+  );
+  terrainGroup.add(card);
+  return { card, baseHeight: height + 3, x: data.x, z: data.z };
 });
 
 const raycaster = new THREE.Raycaster();
